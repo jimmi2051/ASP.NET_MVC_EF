@@ -1,0 +1,113 @@
+﻿@{
+    List<SuperMarketMini.Domain.Order> _listOrder = (List<SuperMarketMini.Domain.Order>)ViewBag.ListOrder;
+    int count = 0;
+    List<SuperMarketMini.Domain.Message> _listMess = (List<SuperMarketMini.Domain.Message>)ViewBag.ListMess;
+    Dictionary<string, string> _notification = (Dictionary<string, string>)ViewBag.Notification;
+}
+<div class="col-md-6 w3agile-notifications">
+    <div class="notifications">
+        <!--notification start-->
+
+        <header class="panel-heading">
+            Notification
+        </header>
+        <div class="notify-w3ls">
+            @{
+                if (_listOrder.Count > 0)
+                {
+                    foreach (var item in _listOrder)
+                    {
+                        if (count == 2)
+                        { break; }
+                        <div class="alert alert-info clearfix">
+                            <span class="alert-icon"><i class="glyphicon glyphicon-menu-hamburger"></i></span>
+                            <div class="notification-info">
+                                <ul class="clearfix notification-meta">
+                                    <li class="pull-left notification-sender"><span><a href="#">@item.OrderID</a></span> need to send item </li>
+                                    <li class="pull-right notification-time">Remind</li>
+                                </ul>
+                                <p>
+                                    @item.RequireDate
+                                </p>
+                            </div>
+                        </div>
+                        count++;
+                    }
+
+                }
+            }
+            @{
+                if (_listMess.Count > 0)
+                {
+                    foreach (var item in _listMess)
+                    {
+                        if (count == 5)
+                        { break; }
+                        <div class="alert alert-info clearfix">
+                            <span class="alert-icon"><i class="fa fa-envelope-o"></i></span>
+                            <div class="notification-info">
+                                <ul class="clearfix notification-meta">
+                                    <li class="pull-left notification-sender"><span><a href="#">@item.Displayname</a></span> send you a mail </li>
+                                    <li class="pull-right notification-time">
+                                        @{
+                                            string Date = item.Created.Year + "-" + item.Created.Month + "-" + item.Created.Day;
+                                            @Date
+                                        }
+                                    </li>
+                                </ul>
+                                <p>
+                                    @item.Content
+                                </p>
+                            </div>
+                        </div>
+                        count++;
+                    }
+                }
+                if (count != 5 && _notification.Count > 0)
+                {
+                    foreach (var item in _notification)
+                    {
+                        if (count == 5)
+                        { break; }
+                        <div class="alert alert-warning clearfix">
+                            @if (item.Key.Substring(0, 2).Equals("HD"))
+                            {
+                                <span class="alert-icon"><i class="glyphicon glyphicon-modal-window"></i></span>
+                                <div class="notification-info">
+                                    <ul class="clearfix notification-meta">
+                                        <li class="pull-left notification-sender"><span><a href="#">Order @item.Key</a></span> out of date </li>
+                                        <li class="pull-right notification-time">
+                                            @item.Value
+                                        </li>
+                                    </ul>
+                                    <p>
+                                        Please check this order.
+                                    </p>
+                                </div>
+
+                            }
+                            @if (item.Key.Substring(0, 2).Equals("SP"))
+                            {
+                                <span class="alert-icon"><i class="fa fa-bell-o"></i></span>
+                                <div class="notification-info">
+                                    <ul class="clearfix notification-meta">
+                                        <li class="pull-left notification-sender"><span><a href="#">Product @item.Key</a></span> only have </li>
+                                        <li class="pull-right notification-time">
+                                            @item.Value items
+                                        </li>
+                                    </ul>
+                                    <p>
+                                        Please check you product.
+                                    </p>
+                                </div>
+                            }
+                        </div>
+                        count++;
+                    }
+                }
+            }
+        </div>
+    </div>
+
+    <!--notification end-->
+</div>

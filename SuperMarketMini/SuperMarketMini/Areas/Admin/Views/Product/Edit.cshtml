@@ -1,0 +1,178 @@
+﻿@model SuperMarketMini.Domain.Product
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    List<SelectListItem> _list = new List<SelectListItem>();
+    SelectListItem _item1 = new SelectListItem() { Text = "Active", Value = "1" };
+    SelectListItem _item2 = new SelectListItem() { Text = "Unactive", Value = "2" };
+    _list.Add(_item1);
+    _list.Add(_item2);
+    if (String.IsNullOrEmpty(Model.Images))
+    {
+        Model.Images = "/Images/Users/noimg.jpg";
+    }
+}
+
+<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#imgDisplay')
+                    .attr('src', e.target.result)
+                    .width(120)
+                    .height(120);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+<div class="form-w3layouts">
+    <!-- page start-->
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    About information product
+                    <span class="tools pull-right">
+                        <a class="fa fa-chevron-down" href="javascript:;"></a>
+                        <a class="fa fa-cog" href="javascript:;"></a>
+                        <a class="fa fa-times" href="javascript:;"></a>
+                    </span>
+                </header>
+                <hr />
+                <a href="/Admin/Product" class="btn btn-danger">Back to list</a>
+                <hr />
+                <div class="panel-body">
+                    <div class="form">
+                        @using (Html.BeginForm("Edit", "Product", FormMethod.Post, new { @class = "cmxform form-horizontal", @id = "signupForm", enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.ProductID)
+                            @Html.Hidden("type","Products")
+                            @Html.Hidden("size","400")
+                            <div class="form-group ">
+                                <label for="firstname" class="control-label col-lg-3">@Html.DisplayNameFor(model => model.ProductID)</label>
+                                <div class="col-lg-6">
+                                    <input class="form-control" type="text" disabled="disabled" value="@Html.DisplayFor(model => model.ProductID)" />
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="lastname" class="control-label col-lg-3">@Html.DisplayNameFor(model => model.Name)</label>
+                                <div class="col-lg-6">
+                                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="lastname" class="control-label col-lg-3">@Html.DisplayNameFor(model => model.Detail)</label>
+                                <div class="col-lg-6">
+                                    @Html.TextAreaFor(model => model.Detail, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Images, new { @class = "control-label col-lg-3", @for = "focusedInput" })
+                                <div class="col-lg-6">
+                                    <input type="file" name="file" class="btn btn-default form-control" onchange="readURL(this);" />
+                                    @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-lg-3">Display images</label>
+                                <div class="col-lg-6">
+                                    <img src="@Model.Images" width="120" height="120" id="imgDisplay" /><br /><br />
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="lastname" class="control-label col-lg-3">@Html.DisplayNameFor(model => model.Quality)</label>
+                                <div class="col-lg-6">
+                                    @Html.TextBoxFor(model => model.Quality, new { @class = "form-control" , @maxlength = "6" })
+                                    @Html.ValidationMessageFor(model => model.Quality, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="lastname" class="control-label col-lg-3">@Html.DisplayNameFor(model => model.PriceBuy)</label>
+                                <div class="col-lg-6">
+                                    @Html.TextBoxFor(model => model.PriceBuy, new { @class = "form-control", @maxlength = "6" })
+                                    @Html.ValidationMessageFor(model => model.PriceBuy, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="lastname" class="control-label col-lg-3">@Html.DisplayNameFor(model => model.PriceSell)</label>
+                                <div class="col-lg-6">
+                                    @Html.TextBoxFor(model => model.PriceSell, new { @class = "form-control", @maxlength = "6" })
+                                    @Html.ValidationMessageFor(model => model.PriceSell, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="lastname" class="control-label col-lg-3">@Html.DisplayNameFor(model => model.UnitBrief)</label>
+                                <div class="col-lg-6">
+                                    @Html.TextBoxFor(model => model.UnitBrief, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.UnitBrief, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label class="control-label col-lg-3">@Html.DisplayNameFor(model => model.Product_Hot)</label>
+                                <div class="col-lg-6">
+                                    @Html.DropDownList("Product_Hot", _list, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Product_Hot, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label class="control-label col-lg-3">@Html.DisplayNameFor(model => model.Special)</label>
+                                <div class="col-lg-6">
+                                    @Html.DropDownList("Special", _list, new { @class = "form-control", @onclick = "if(this.value=='1'){document.getElementById('discount').style.display='block'} else {document.getElementById('discount').style.display='none'}" })
+                                    @Html.ValidationMessageFor(model => model.Special, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group " id="discount" >
+                                <label for="lastname" class="control-label col-lg-3">@Html.DisplayNameFor(model => model.Discount)</label>
+                                <div class="col-lg-6">
+                                    @Html.TextBoxFor(model => model.Discount, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Discount, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label class="control-label col-lg-3">@Html.DisplayNameFor(model => model.Status)</label>
+                                <div class="col-lg-6">
+                                    @Html.DropDownList("Status", _list, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CategoryID, "CategoryID", new { @class = "control-label col-lg-3" })
+                                <div class="col-lg-6">
+                                    @Html.DropDownList("CategoryID", null, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.SupplierID, "SupplierID", new { @class = "control-label col-lg-3" })
+                                <div class="col-lg-6">
+                                    @Html.DropDownList("SupplierID", null, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.SupplierID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-lg-offset-3 col-lg-6">
+                                    <button class="btn btn-success" type="submit">Save</button>
+                                    <button class="btn btn-default" type="reset">Reset</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+

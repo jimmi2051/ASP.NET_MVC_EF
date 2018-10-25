@@ -1,0 +1,29 @@
+﻿@{
+    @model IEnumerable<SuperMarketMini.Domain.Category>
+    List<String> _list = (List<String>)ViewBag.ListMenu;
+}
+<div class="col-md-4 products-left">
+    <div class="categories">
+        <h2>Categories</h2>
+        <ul class="cate">
+            @{
+                for (int i = 0; i < _list.Count; i++)
+                {
+                    <li><a href="/Products/listProductbyCat?group=@_list[i]"><i class="fa fa-arrow-right" aria-hidden="true"></i>@_list[i]</a></li>
+                    <ul>
+                        @foreach (var item in Model)
+                        {
+                            if (item.GroupName.Equals(_list[i]))
+                            {
+
+                                <li><a href="/Products/listProductbyCat?cat=@item.CategoryID"><i class="fa fa-arrow-right" aria-hidden="true"></i>@item.Name</a></li>
+                            }
+                        }
+                    </ul>
+                }
+            }
+
+        </ul>
+    </div>
+</div>
+

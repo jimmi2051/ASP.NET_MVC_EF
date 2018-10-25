@@ -1,0 +1,129 @@
+﻿
+@model PagedList.IPagedList<SuperMarketMini.Domain.User>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<ul class="breadcrumb">
+    <li>
+        <i class="icon-home"></i>
+        <a href="/Admin">Home</a>
+        <i class="icon-angle-right"></i>
+    </li>
+    <li><a href="/Admin/Users/Index">Users</a></li>
+</ul>
+@{
+    if (ViewBag.Create != null)
+    {
+        <script>
+            toastr["success"]("Update Success", "Notification");
+        </script>
+    }
+    if (ViewBag.Delete != null)
+    {
+        <script>
+            toastr["success"]("Delete Success", "Notification");
+        </script>
+    }
+}
+
+<div class="table-agile-info">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            List users
+        </div>
+        <hr />
+        <hr />
+        @using (Html.BeginForm("Index", "UsersManager", FormMethod.Get))
+        {
+            <div class="form-group">
+                <div class="col-lg-5">
+                    @Html.TextBox("SearchString", "Key: Username, DisplayName, Email", ViewBag.CurrentFilter as string, new { @class = "form-control", @onfocus = "this.value = '';", @onblur = "if (this.value == '') {this.value = 'Key: Username, DisplayName, Email';}" })
+                </div>
+                <div class="col-lg-1">
+                    <input type="submit" value="Search" class="btn btn-send" />
+                </div>
+            </div>
+        }
+        <table class="table" ui-jq="footable" ui-options='{
+        "paging": {
+          "enabled": true
+        },
+        "filtering": {
+          "enabled": true
+        },
+        "sorting": {
+          "enabled": true
+        }}'>
+            <thead>
+                <tr>
+                    <th>
+                        Username
+                    </th>
+                    <th>
+                        DisplayName
+                    </th>
+                    <th>
+                        Sex
+                    </th>
+                    <th>
+                        Role
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="center">
+                            @Html.DisplayFor(modelItem => item.Username)
+                        </td>
+                        <td class="center">
+                            @Html.DisplayFor(modelItem => item.DisplayName)
+                        </td>
+                        <td class="center">
+                            @Html.DisplayFor(modelItem => item.Sex)
+                        </td>
+                        <td class="center">
+                            @Html.DisplayFor(modelItem => item.TypeUser.DisplayName)
+                        </td>
+                        <td class="center">
+                            @if (item.Status == 2)
+                            {
+                                <span class="label label-warning">Pending</span>
+                            }
+                            @if (item.Status == 1)
+                            {
+                                <span class="label label-success">Active</span>
+                            }
+                            @if (item.Status == 3)
+                            {
+                                <span class="label label-danger">Banned</span>
+                            }
+                        </td>
+                        <td>
+                            <a class="btn btn-info" href="/Admin/UsersManager/Edit/@item.Username">
+                                Details
+                            </a>
+                            <a class="btn btn-danger" href="/Admin/UsersManager/Delete/@item.Username">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div style="text-align:center">
+            <br />
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        </div>
+    </div>
+</div>
+

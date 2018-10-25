@@ -1,0 +1,62 @@
+﻿@model SuperMarketMini.Models.LoginUser
+
+@{
+    ViewBag.Title = "Login";
+}
+<!doctype html>
+<html>
+<head>
+    <title>Admin - Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Proficient Login Form Responsive, Login form web template,Flat Pricing tables,Flat Drop downs  Sign up Web Templates, Flat Web Templates, Login signup Responsive web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <!-- /fonts -->
+    <!-- css -->
+    <link href="/Assets/Admin/Login/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/Assets/Admin/Login/css/style.css" rel="stylesheet" type='text/css' media="all" />
+    <!-- /css -->
+</head>
+<body>
+    <h1 class="w3layouts agileits">Supermarket Login Form</h1>
+    <div class="content-w3ls agileits">
+        <img src="/Assets/Admin/Login/images/icon.png" alt="" class="user-wthree">
+        @using (Html.BeginForm("Login", "Login", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            <fieldset>
+                <div class="form-group1-agile agile-info">
+                    @Html.TextBoxFor(model => model.Username, new { @autofocus = "autofocus", @value = "Username", @onfocus = "if(this.value=='Username') {this.value = '';}", @onblur = "if (this.value == '') {this.value = 'Username';}" })
+                    @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group2-agile agile-info">
+                    @Html.PasswordFor(model => model.Password, new { @value = "Password", @onfocus = "this.value = '';", @onblur = "if (this.value == '') {this.value = 'Password';}" })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group3-agile wthree">
+                    @Html.TextBoxFor(model => model.RememberMe, new { @id = "brand", @type = "checkbox" })
+                    <label for="brand"><span></span> Keep Me Logged In?</label>
+                </div>
+                @if (ViewBag.Errors != null)
+                {
+                    <div class="alert alert-error" style="color:red;font-size:larger;font-weight:bold">@ViewBag.Errors</div>
+                    <div><br /></div>
+                }
+                <!-- Change this to a button or input when using this as a form -->
+                <input type="submit" value="LOG IN">
+            </fieldset>
+        }
+    </div>
+    <div class="footer-w3ls w3-agile">
+        <p class="w3-agileits">© 2018 Supermarket mini - 06 Nguyen Trai Street, District 5, Ho Chi Minh City </p>
+    </div>
+    <!-- js -->
+    <script src="/Assets/Admin/Login/js/modernizr.min.js"></script>
+    <!-- /js -->
+</body>
+</html>

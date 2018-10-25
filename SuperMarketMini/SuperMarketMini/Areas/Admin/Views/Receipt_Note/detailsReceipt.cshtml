@@ -1,0 +1,168 @@
+﻿@model SuperMarketMini.Domain.Receipt_Note
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    List<SuperMarketMini.Domain.Receipt_Note_Detail> _listReceipt = (List<SuperMarketMini.Domain.Receipt_Note_Detail>)ViewBag.ListReceiptDetail;
+    List<SelectListItem> _list = new List<SelectListItem>();
+    SelectListItem _item2 = new SelectListItem() { Text = "Pending send", Value = "2" };
+    SelectListItem _item3 = new SelectListItem() { Text = "Confirm received", Value = "3" };
+    SelectListItem _item4 = new SelectListItem() { Text = "Return request", Value = "4" };
+    SelectListItem _item5 = new SelectListItem() { Text = "Cancel order", Value = "-1" };
+    _list.Add(_item2);
+    _list.Add(_item3);
+    _list.Add(_item4);
+    _list.Add(_item5);
+}
+
+<div class="form-w3layouts">
+    <!-- page start-->
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    About receipt details
+                    <span class="tools pull-right">
+                        <a class="fa fa-chevron-down" href="javascript:;"></a>
+                        <a class="fa fa-cog" href="javascript:;"></a>
+                        <a class="fa fa-times" href="javascript:;"></a>
+                    </span>
+                </header>
+                <hr />
+                <a href="/Admin/Receipt_Note" class="btn btn-danger" style="margin-left:20px">Back to list</a>
+                <hr />
+                <div class="panel-body">
+                    <div class="form">
+                        <div style="text-align:center">
+                            @using (Html.BeginForm("detailsReceipt", "Receipt_Note", FormMethod.Post, new { @class = "cmxform form-horizontal", @id = "signupForm" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                //Hide
+                                @Html.HiddenFor(model => model.Receipt_NoteID)
+                                @Html.HiddenFor(model => model.Username)
+                                @Html.HiddenFor(model => model.Amount)
+                                @Html.HiddenFor(model => model.Created)
+                                @Html.HiddenFor(model => model.Modified)
+                                <div class="form-group ">
+                                    <label for="firstname" class="control-label col-lg-3">@Html.DisplayNameFor(model => model.Receipt_NoteID)</label>
+                                    <div class="col-lg-6">
+                                        <input class="form-control" type="text" disabled="disabled" value="@Html.DisplayFor(model => model.Receipt_NoteID)" />
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <label for="firstname" class="control-label col-lg-3">@Html.DisplayNameFor(model => model.Username)</label>
+                                    <div class="col-lg-6">
+                                        <input class="form-control" type="text" disabled="disabled" value="@Html.DisplayFor(model => model.Username)" />
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <label for="firstname" class="control-label col-lg-3">@Html.DisplayNameFor(model => model.Amount)</label>
+                                    <div class="col-lg-6">
+                                        <input class="form-control" type="text" disabled="disabled" value="@Html.DisplayFor(model => model.Amount)" />
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <label for="firstname" class="control-label col-lg-3">@Html.DisplayNameFor(model => model.Created)</label>
+                                    <div class="col-lg-6">
+                                        <input class="form-control" type="text" disabled="disabled" value="@Html.DisplayFor(model => model.Created)" />
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <label for="firstname" class="control-label col-lg-3">@Html.DisplayNameFor(model => model.Modified)</label>
+                                    <div class="col-lg-6">
+                                        <input class="form-control" type="text" disabled="disabled" value="@Html.DisplayFor(model => model.Modified)" />
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <label for="firstname" class="control-label col-lg-3">@Html.DisplayNameFor(model => model.Status)</label>
+                                    <div class="col-lg-6">
+                                        @Html.DropDownList("Status", _list, new { @class = "form-control", @id = "status" })
+                                    </div>
+                                </div>
+                                <div class="form-group" id="button">
+                                    <div class="col-lg-offset-3 col-lg-6">
+                                        <button class="btn btn-success" type="submit">Save</button>
+                                        <button class="btn btn-default" type="reset">Reset</button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+@if (_listReceipt.Count > 0)
+{
+    <div class="table-agile-info">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                List item of @Model.Receipt_NoteID
+            </div>
+            <hr />
+            <hr />
+            <table class="table" ui-jq="footable" ui-options='{
+        "paging": {
+          "enabled": true
+        },
+        "filtering": {
+          "enabled": true
+        },
+        "sorting": {
+          "enabled": true
+        }}'>
+                <thead>
+                    <tr>
+                        <th>
+                            Product ID
+                        </th>
+                        <th>
+                            DisplayName
+                        </th>
+                        <th>
+                            Images
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        <td>
+                            Quality
+                        </td>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in _listReceipt)
+                    {
+                        <tr>
+                            <td class="center">
+                                @item.ProductID
+                            </td>
+                            <td class="center">
+                                @item.Product.Name
+                            </td>
+                            <td class="center">
+                                <img src="@item.Product.Images" height="40" width="40" />
+                            </td>
+                            <td class="center">
+                                @item.Price
+                            </td>
+                            <td>
+                                @item.Quality
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+}
+@if (Model.Status == 3)
+{
+    <script type="text/javascript">
+        document.getElementById('status').disabled = 'disabled';
+        document.getElementById('button').style.display = 'none';
+    </script>
+}

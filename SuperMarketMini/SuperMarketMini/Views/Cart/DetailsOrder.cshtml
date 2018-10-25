@@ -1,0 +1,48 @@
+﻿@model List<SuperMarketMini.Domain.Order_Detail>
+@{
+    ViewBag.Title = "DetailsOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    SuperMarketMini.Domain.Order index = (SuperMarketMini.Domain.Order)ViewBag.Order;
+}
+
+
+<div class="breadcrumbs">
+    <div class="container">
+        <ol class="breadcrumb breadcrumb1">
+            <li><a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+            <li class="active">Details</li>
+        </ol>
+    </div>
+</div>
+<div class="checkout">
+    <div class="container">
+        <h2>Details Orders <span>@index.OrderID</span> </h2>
+        <div class="checkout-right">
+            <table class="timetable_sub">
+                <thead>
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Imagees</th>
+                        <th>Price</th>
+                        <th>Quality</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="invert">@item.ProductID</td>
+                        <td class="invert-image"><img src="@item.Product.Images" /></td>
+                        <td class="invert">@item.Price</td>
+                        <td class="invert">@item.Quality</td>
+                        <td class="invert">@(item.Price * item.Quality) $</td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <div class="checkout-right-basket">
+            <a href="/Cart/ViewHistory"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Go back</a>         
+        </div>
+    </div>
+</div>
+

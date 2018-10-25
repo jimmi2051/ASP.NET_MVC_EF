@@ -1,0 +1,257 @@
+﻿@model PagedList.IPagedList<SuperMarketMini.Domain.Product>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "listProductbyCat";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int count = 1;
+}
+
+<div class="breadcrumbs">
+    <div class="container">
+        <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+            <li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+            <li class="active">@ViewBag.Cat</li>
+        </ol>
+    </div>
+</div>
+<div class="products">
+    <div class="container">
+        @{ Html.RenderAction("leftMenu", "Products");}
+        <div class="col-md-8 products-right">
+            <div class="products-right-grid">
+                <div class="products-right-grids">
+                    @using (Html.BeginForm("listProductbyCat", "Products", ViewBag.CurrentFilter as string, FormMethod.Get))
+                    {
+                        <div class="col-lg-4">
+                            <select id="country" name="keyfilter" class="frm-field required sect">
+                                <option id="1" value="1"><i class="fa fa-arrow-right" aria-hidden="true"></i>Default sorting</option>
+                                <option id="2" value="2"><i class="fa fa-arrow-right" aria-hidden="true"></i>Sort by popularity</option>
+                                <option id="3" value="3"><i class="fa fa-arrow-right" aria-hidden="true"></i>Sort by discount</option>
+                                <option id="4" value="4"><i class="fa fa-arrow-right" aria-hidden="true"></i>Sort by price asc</option>
+                                <option id="5" value="5"><i class="fa fa-arrow-right" aria-hidden="true"></i>Sort by price desc</option>
+                            </select>
+                        </div>
+                        <input type="hidden" name="cat" value="@ViewBag.CID" />
+                        <input type="hidden" name="group" value="@ViewBag.GID" />
+                        <input type="hidden" name="sup" value="@ViewBag.SID" />
+                        <input type="hidden" name="currentFilter" value="@ViewBag.CurrentFilter" />
+                        <div class="col-lg-8" id="errors">
+                            <label>Price From:</label>
+                            <input type="text" size="5" name="pricestart" id="pricestart" value="@ViewBag.pricestart" maxlength="5" />
+                            <label>$ To</label>
+                            <input type="text" size="5" name="priceend" id="priceend" maxlength="5" value="@ViewBag.priceend" /><label>$</label>
+                            <button class="btn btn-info" style="margin-left:100px" id="fillter" type="submit">Filter</button>
+                        </div>
+                    }
+                    <div class="clearfix"> </div>
+                </div>
+            </div>
+            <script type="text/javascript">
+                var element = document.getElementById('pricestart');
+                var element2 = document.getElementById('priceend');
+                var filter = document.getElementById('fillter');
+                filter.onclick = function () {
+                    if (parseInt(element.value) < 0 || parseInt(element2.value) < 0 || parseInt(element2.value) < parseInt(element.value)) {
+                        toastr["warning"]("Price is not valid. ", "Errors !!");
+                        return false;
+                    }
+                }
+            </script>
+            @if (@ViewBag.CurrentFilter2 != null)
+            {
+                <script>
+                    var element = document.getElementById(@ViewBag.CurrentFilter2);
+                    element.selected = 'selected';
+                </script>
+            }
+
+            <div class="agile_top_brands_grids">
+                @{
+                    int temp = 0;
+                    if (Model.Count < 3)
+                    {
+                        temp = Model.Count;
+                    }
+                    else
+                    {
+                        temp = 3;
+                    }
+                    for (int i = 0; i < temp; i++)
+                    {
+                        <div class="col-md-4 top_brand_left">
+                            <div class="hover14 column">
+                                <div class="agile_top_brand_left_grid">
+                                    <div class="agile_top_brand_left_grid_pos">
+                                        <img src="/Assets/Client/images/offer.png" alt=" " class="img-responsive">
+                                    </div>
+                                    <div class="agile_top_brand_left_grid1">
+                                        <figure>
+                                            <div class="snipcart-item block">
+                                                <div class="snipcart-thumb">
+                                                    <a href="/Products/Details/@Model[i].ProductID"><img title=" " alt=" " height="150" width="150" src="@Model[i].Images" /></a>
+                                                    <p>@Model[i].Name</p>
+                                                    <h4>
+                                                        $
+                                                        @{
+                                                            if (Model[i].Special == 1)
+                                                            {
+                                                                float display = Model[i].PriceSell - (Model[i].Discount * Model[i].PriceSell) / 100; @display <span>$ @Model[i].PriceSell</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                @Model[i].PriceSell
+                                                            }
+                                                        }
+
+                                                    </h4>
+                                                </div>
+                                                <div class="snipcart-details top_brand_home_details">
+
+                                                    <input type="hidden" id="Name@{@count}" value="@Model[i].Name" />
+                                                    <input type="hidden" id="IMG@{@count}" value="@Model[i].Images" />
+                                                    <input type="hidden" id="@{@count}" value="@Model[i].ProductID" />
+                                                    <input type="submit" value="Add to cart" class="button" onclick="myFunction(@{@count});" />
+
+                                                </div>
+                                            </div>
+                                        </figure>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        count++;
+                    }
+                }
+                <div class="clearfix"> </div>
+            </div>
+            @if (Model.Count > 2)
+            {
+                if (Model.Count < 6)
+                {
+                    temp = Model.Count;
+                }
+                else
+                {
+                    temp = 6;
+                }
+                <div class="agile_top_brands_grids">
+                    @{
+                        for (int i = 3; i < temp; i++)
+                        {
+                            <div class="col-md-4 top_brand_left">
+                                <div class="hover14 column">
+                                    <div class="agile_top_brand_left_grid">
+                                        <div class="agile_top_brand_left_grid_pos">
+                                            <img src="/Assets/Client/images/offer.png" alt=" " class="img-responsive">
+                                        </div>
+                                        <div class="agile_top_brand_left_grid1">
+                                            <figure>
+                                                <div class="snipcart-item block">
+                                                    <div class="snipcart-thumb">
+                                                        <a href="/Products/Details/@Model[i].ProductID"><img title=" " alt=" " height="150" width="150" src="@Model[i].Images" /></a>
+                                                        <p>@Model[i].Name</p>
+                                                        <h4>
+                                                            $
+                                                            @{
+                                                                if (Model[i].Special == 1)
+                                                                {
+                                                                    float display = Model[i].PriceSell - (Model[i].Discount * Model[i].PriceSell) / 100; @display <span>$ @Model[i].PriceSell</span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    @Model[i].PriceSell
+                                                                }
+                                                            }
+
+                                                        </h4>
+                                                    </div>
+                                                    <div class="snipcart-details top_brand_home_details">
+
+                                                        <input type="hidden" id="Name@{@count}" value="@Model[i].Name" />
+                                                        <input type="hidden" id="IMG@{@count}" value="@Model[i].Images" />
+                                                        <input type="hidden" id="@{@count}" value="@Model[i].ProductID" />
+                                                        <input type="submit" value="Add to cart" class="button" onclick="myFunction(@{@count});" />
+
+                                                    </div>
+                                                </div>
+                                            </figure>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            count++;
+                        }
+                    }
+                    <div class="clearfix"> </div>
+                </div>
+            }
+            @if (Model.Count > 5)
+            {
+                if (Model.Count < 9)
+                {
+                    temp = Model.Count;
+                }
+                else
+                {
+                    temp = 9;
+                }
+                <div class="agile_top_brands_grids">
+                    @{
+                        for (int i = 6; i < temp; i++)
+                        {
+                            <div class="col-md-4 top_brand_left">
+                                <div class="hover14 column">
+                                    <div class="agile_top_brand_left_grid">
+                                        <div class="agile_top_brand_left_grid_pos">
+                                            <img src="/Assets/Client/images/offer.png" alt=" " class="img-responsive">
+                                        </div>
+                                        <div class="agile_top_brand_left_grid1">
+                                            <figure>
+                                                <div class="snipcart-item block">
+                                                    <div class="snipcart-thumb">
+                                                        <a href="/Products/Details/@Model[i].ProductID"><img title=" " alt=" " height="150" width="150" src="@Model[i].Images" /></a>
+                                                        <p>@Model[i].Name</p>
+                                                        <h4>
+                                                            $
+                                                            @{
+                                                                if (Model[i].Special == 1)
+                                                                {
+                                                                    float display = Model[i].PriceSell - (Model[i].Discount * Model[i].PriceSell) / 100; @display <span>$ @Model[i].PriceSell</span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    @Model[i].PriceSell
+                                                                }
+                                                            }
+                                                        </h4>
+                                                    </div>
+                                                    <div class="snipcart-details top_brand_home_details">
+                                                        <input type="hidden" id="Name@{@count}" value="@Model[i].Name" />
+                                                        <input type="hidden" id="IMG@{@count}" value="@Model[i].Images" />
+                                                        <input type="hidden" id="@{@count}" value="@Model[i].ProductID" />
+                                                        <input type="submit" value="Add to cart" class="button" onclick="myFunction(@{@count});" />
+                                                    </div>
+
+                                                </div>
+                                            </figure>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            count++;
+                        }
+                    }
+                    <div class="clearfix"> </div>
+                </div>
+            }
+            <nav class="numbering">
+                <ul class="pagination paging">
+                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                    @Html.PagedListPager(Model, page => Url.Action("listProductbyCat", new { page, keyfilter = ViewBag.CurrentFilter2, currentFilter = ViewBag.CurrentFilter, cat = ViewBag.CID != null ? ViewBag.CID : "", sup = ViewBag.SID != null ? ViewBag.SID : "", group = ViewBag.GID != null ? ViewBag.GID : "", pricestart = ViewBag.pricestart != null ? ViewBag.pricestart : "", priceend = ViewBag.priceend != null ? ViewBag.priceend : "" }))
+                </ul>
+            </nav>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+</div>
+<!--- personalcare --->

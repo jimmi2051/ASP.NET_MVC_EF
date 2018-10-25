@@ -1,0 +1,278 @@
+﻿@using SuperMarketMini.Areas.Admin.Common;
+<!DOCTYPE html>
+<head>
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Visitors Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- bootstrap-css -->
+    <link rel="stylesheet" href="/Assets/Admin/css/bootstrap.min.css">
+    <!-- //bootstrap-css -->
+    <!-- Custom CSS -->
+    <link href="/Assets/Admin/css/style.css" rel='stylesheet' type='text/css' />
+    <link href="/Assets/Admin/css/style-responsive.css" rel="stylesheet" />
+    <!-- font CSS -->
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <!-- font-awesome icons -->
+    <link rel="stylesheet" href="/Assets/Admin/css/font.css" type="text/css" />
+    <link href="/Assets/Admin/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="/Assets/Admin/css/morris.css" type="text/css" />
+    <!-- calendar -->
+    <link rel="stylesheet" href="/Assets/Admin/css/monthly.css">
+    <!-- //calendar -->
+    <!-- //font-awesome icons -->
+    <script src="/Assets/Admin/js/jquery2.0.3.min.js"></script>
+    <script src="/Assets/Admin/js/raphael-min.js"></script>
+    <script src="/Assets/Admin/js/morris.js"></script>
+    <link href="/Content/toastr.min.css" rel="stylesheet" />
+    <script src="/Scripts/toastr.min.js"></script>
+    <script src="~/Content/MyScript.js"></script>
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+</head>
+<body>
+    <section id="container">
+        <!--header start-->
+        <header class="header fixed-top clearfix">
+            <!--logo start-->
+            <div class="brand">
+                <a href="/Admin" class="logo">
+                    NLT
+                </a>
+                <div class="sidebar-toggle-box">
+                    <div class="fa fa-bars"></div>
+                </div>
+            </div>
+            <!--logo end-->
+            @{ Html.RenderAction("Notification", "Home");}
+            <div class="top-nav clearfix">
+                <!--search & user info start-->
+                <ul class="nav pull-right top-menu">
+                    <li>
+                        <input type="text" class="form-control search" placeholder=" Search">
+                    </li>
+                    <!-- user login dropdown start-->
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            @{
+                                SessionAdmin session = (SessionAdmin)Session[Infrastructure.Information.CommonConstantAdmin];
+                                if (session == null)
+                                {
+                                    session = new SessionAdmin() { Username = "Demo", DisplayName = "Demo", Img = "/Assets/Admin/images/2.png " };
+                                }
+                                if (String.IsNullOrEmpty(session.Img))
+                                {
+                                    session.Img = "/Assets/Admin/images/2.png";
+                                }
+                            }
+                            <img alt="" src="@session.Img">
+                            <span class="username">
+                                @{
+
+                                    @session.DisplayName
+                                }
+                            </span>
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu extended logout">
+                            <li><a href="/admin/profile-@session.Username"><i class=" fa fa-suitcase"></i>Profile</a></li>
+                            <li><a href="#"><i class="fa fa-cog"></i> Settings</a></li>
+                            <li><a href="/admin/logout"><i class="fa fa-key"></i> Log Out</a></li>
+                        </ul>
+                    </li>
+                    <!-- user login dropdown end -->
+
+                </ul>
+                <!--search & user info end-->
+            </div>
+        </header>
+        <!--header end-->
+        <!--sidebar start-->
+        <aside>
+            <div id="sidebar" class="nav-collapse">
+                <!-- sidebar menu start-->
+                <div class="leftside-navigation">
+                    <ul class="sidebar-menu" id="nav-accordion">
+                        <li>
+                            <a href="/Admin">
+                                <i class="fa fa-dashboard"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-users"></i>
+                                <span>Users Manager</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="/admin-usersmanager-create">Create new user</a></li>
+                                <li><a href="/Admin-UsersManager-index">List users</a></li>
+                            </ul>
+                        </li>
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-product-hunt"></i>
+                                <span>Products Manager</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="/admin-product-create">Create new product</a></li>
+                                <li><a href="/Admin-product-index">List products</a></li>
+                            </ul>
+                        </li>
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-user-plus"></i>
+                                <span>Type Users Manager</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="/Admin/Typeusers/create">Create new type user</a></li>
+                                <li><a href="/Admin/TypeUsers/Index">List type users</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/Admin/Order/Index">
+                                <i class="fa fa-list"></i>
+                                <span>List Orders </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/Admin/Receipt_Note/Index">
+                                <i class="fa fa-first-order"></i>
+                                <span>List Receipt_Note </span>
+                            </a>
+                        </li>
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-envelope"></i>
+                                <span>Mail </span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="/Admin/Home/Mail">Inbox</a></li>
+                                <li><a href="/Admin/Home/SendMail">Send Mail</a></li>
+                            </ul>
+                        </li>
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-support"></i>
+                                <span>Supplier Manager</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="/Admin/Supplier/create">Create new supplier</a></li>
+                                <li><a href="/Admin/Supplier/Index">List supplier</a></li>
+                            </ul>
+                        </li>
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-list"></i>
+                                <span>Category Manager</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="/Admin/Category/create">Create new category</a></li>
+                                <li><a href="/Admin/Category/Index">List category</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/Admin/Statistical">
+                                <i class="fa fa-calculator"></i>
+                                <span>Statistical </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- sidebar menu end-->
+            </div>
+        </aside>
+        <!--sidebar end-->
+        <!--main content start-->
+        <section id="main-content">
+            <section class="wrapper">
+                @RenderBody()
+            </section>
+            <!-- footer -->
+            <div class="footer">
+                <div class="wthree-copyright">
+                    <p>© 2018 Supermarket mini - 06 Nguyen Trai Street, District 5, Ho Chi Minh City</p>
+                </div>
+            </div>
+            <!-- / footer -->
+        </section>
+        <!--main content end-->
+    </section>
+    <script src="/Assets/Admin/js/bootstrap.js"></script>
+    <script src="/Assets/Admin/js/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="/Assets/Admin/js/scripts.js"></script>
+    <script src="/Assets/Admin/js/jquery.slimscroll.js"></script>
+    <script src="/Assets/Admin/js/jquery.nicescroll.js"></script>
+    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="/Assets/Admin/js/flot-chart/excanvas.min.js"></script><![endif]-->
+    <script src="/Assets/Admin/js/jquery.scrollTo.js"></script>
+    <!-- morris JavaScript -->
+    @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+        try {
+            if (!Modernizr.inputtypes.date) {
+                $(function () {
+                    $("input[type='date']")
+                        .datepicker()
+                        .get(0)
+                        .setAttribute("type", "text");
+                })
+            }
+        }
+        catch{
+
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            //BOX BUTTON SHOW AND CLOSE
+            jQuery('.small-graph-box').hover(function () {
+                jQuery(this).find('.box-button').fadeIn('fast');
+            }, function () {
+                jQuery(this).find('.box-button').fadeOut('fast');
+            });
+            jQuery('.small-graph-box .box-close').click(function () {
+                jQuery(this).closest('.small-graph-box').fadeOut(200);
+                return false;
+            });
+
+            function gd(year, day, month) {
+                return new Date(year, month - 1, day).getTime();
+            }
+        });
+    </script>
+    <!-- calendar -->
+    <script type="text/javascript" src="/Assets/Admin/js/monthly.js"></script>
+    <script type="text/javascript">
+        $(window).load(function () {
+
+            $('#mycalendar').monthly({
+                mode: 'event',
+
+            });
+
+            $('#mycalendar2').monthly({
+                mode: 'picker',
+                target: '#mytarget',
+                setWidth: '250px',
+                startHidden: true,
+                showTrigger: '#mytarget',
+                stylePast: true,
+                disablePast: true
+            });
+
+            switch (window.location.protocol) {
+                case 'http:':
+                case 'https:':
+                    // running on a server, should be good.
+                    break;
+                case 'file:':
+                    alert('Just a heads-up, events will not work when run locally.');
+            }
+
+        });
+    </script>
+    <!-- //calendar -->
+</body>
+</html>

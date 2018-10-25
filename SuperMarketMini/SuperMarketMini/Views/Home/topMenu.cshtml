@@ -1,0 +1,38 @@
+﻿@{
+    @model IEnumerable<SuperMarketMini.Domain.Category>
+    List<String> _list = (List<String>)ViewBag.ListMenu;
+}
+<div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+    <ul class="nav navbar-nav">
+        <li class="active"><a href="/" class="act">Home</a></li>
+        <!-- Mega Menu -->
+        @{
+            for (int i = 0; i < _list.Count; i++)
+            {
+                <li class="dropdown">
+                    <a href="/Products/listProductbyCat?group=@_list[i]" class="dropdown-toggle" data-toggle="dropdown">@_list[i]<b class="caret"></b></a>
+                    <ul class="dropdown-menu multi-column columns-3">
+                        <div class="row">
+                            <div class="multi-gd-img">
+                                <ul class="multi-column-dropdown">
+                                    <h6>All @_list[i]</h6>
+                                    @foreach (var item in Model)
+                                    {
+                                        if (item.GroupName.Equals(_list[i]))
+                                        {
+                                            <li><a href="/Products/listProductbyCat?cat=@item.CategoryID"><i class="fa fa-arrow-right" aria-hidden="true"></i>@item.Name</a></li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </ul>
+                </li>
+            }
+        }
+
+        <li><a href="/Home/NewOffer">Offers</a></li>
+        <li><a href="/Home/About">About us</a></li>
+        <li><a href="/Home/Contact">Contact</a></li>
+    </ul>
+</div>

@@ -1,0 +1,84 @@
+﻿@model SuperMarketMini.Domain.Message
+@{
+    ViewBag.Title = "Contact";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- //navigation -->
+<!-- breadcrumbs -->
+<div class="breadcrumbs">
+    <div class="container">
+        <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+            <li><a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+            <li class="active">Contact</li>
+        </ol>
+    </div>
+</div>
+<!-- //breadcrumbs -->
+<!-- contact -->
+<div class="about">
+    <div class="w3_agileits_contact_grids">
+        <div class="col-md-6 w3_agileits_contact_grid_left">
+            <div class="agile_map">
+                <iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:EkM2IE5ndXnhu4VuIFRyw6NpLCBwaMaw4budbmcgMiwgUXXhuq1uIDUsIEjhu5MgQ2jDrSBNaW5oLCBWaeG7h3QgTmFt&key=AIzaSyBbOLjFh9rXM_oQPmugArQs1zudqR7ucRk" allowfullscreen></iframe>
+            </div>
+            <div class="agileits_w3layouts_map_pos">
+                <div class="agileits_w3layouts_map_pos1">
+                    <h3>Contact Info</h3>
+                    <p>06 Nguyen Trai Street, District 5, Ho Chi Minh City</p>
+                    <ul class="wthree_contact_info_address">
+                        <li><i class="fa fa-envelope" aria-hidden="true"></i><a href="mailto:jimmi2051@gmail.com">jimmi2051@gmail.com</a></li>
+                        <li><i class="fa fa-phone" aria-hidden="true"></i>+84 1869 363 575</li>
+                    </ul>
+                    <div class="w3_agile_social_icons w3_agile_social_icons_contact">
+                        <ul>
+                            <li><a href="#" class="icon icon-cube agile_facebook"></a></li>
+                            <li><a href="#" class="icon icon-cube agile_rss"></a></li>
+                            <li><a href="#" class="icon icon-cube agile_t"></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 w3_agileits_contact_grid_right">
+            <h2 class="w3_agile_header">Leave a<span> Message</span></h2>
+            @using (Html.BeginForm("Contact", "Home", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Id)
+                @Html.HiddenFor(model => model.status)
+                @Html.HiddenFor(model => model.Created)
+                <span class="input input--ichiro">
+                    @Html.TextBoxFor(model => model.Displayname, new { @class = "input__field input__field--ichiro", @type = "text", @id = "input-25", @name = "Name", @placeholder = " ", @required = "" })
+                    <label class="input__label input__label--ichiro" for="input-25">
+                        <span class="input__label-content input__label-content--ichiro">Your Name</span>
+                    </label>
+                </span>
+                <span class="input input--ichiro">
+                    @Html.TextBoxFor(model => model.Sendby, new { @class = "input__field input__field--ichiro", @type = "email", @id = "input-26", @name = "Email", @placeholder = " ", @required = "" })
+                    <label class="input__label input__label--ichiro" for="input-26">
+                        <span class="input__label-content input__label-content--ichiro">Your Email</span>
+                    </label>
+                </span>
+                @Html.TextAreaFor(model => model.Content, new { @name = "Message", @placeholder = "Your message here...", @required = "", @id = "input-27" })
+                <input type="submit" value="Submit">
+            }
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+</div>
+<!-- contact -->
+@{
+    if (ViewBag.Success != null)
+    {
+        <script type="text/javascript">
+            toastr["success"]("Your message has been successfully sent", "Notification");
+            var element = document.getElementById('input-25');
+            var element1 = document.getElementById('input-26');
+            var element2 = document.getElementById('input-27');
+            element.value = "";
+            element1.value = "";
+            element2.value = "";
+        </script>
+    }
+}

@@ -1,0 +1,157 @@
+﻿@model PagedList.IPagedList<SuperMarketMini.Domain.Message>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Mail";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    int count = (int)ViewBag.Count;
+}
+<script>
+    
+    function check() {
+        var elms = document.querySelectorAll("[id='myCheck']");
+        for (var i = 0; i < elms.length; i++)
+            elms[i].checked = true; // <-- whatever you need to do here.
+    }
+
+    function uncheck() {
+        var elms = document.querySelectorAll("[id='myCheck']");
+        for (var i = 0; i < elms.length; i++)
+            elms[i].checked = false; // <-- whatever you need to do here.
+    }
+</script>
+
+<div class="col-sm-3 com-w3ls">
+    <section class="panel">
+        <div class="panel-body">
+            <a href="mail_compose.html" class="btn btn-compose">
+                Compose Mail
+            </a>
+            <ul class="nav nav-pills nav-stacked mail-nav">
+                <li class="active"><a href="/Admin/Home/Mail"> <i class="fa fa-inbox"></i> Inbox  <span class="label label-danger pull-right inbox-notification">@count</span></a></li>
+                <li><a href="/Admin/Home/SendMail"> <i class="fa fa-envelope-o"></i> Send Mail</a></li>
+                <li><a href="#"> <i class="fa fa-certificate"></i> Important</a></li>
+                <li><a href="#"> <i class="fa fa-file-text-o"></i> Drafts <span class="label label-info pull-right inbox-notification"></span></a></a></li>
+                <li><a href="#"> <i class="fa fa-trash-o"></i> Trash</a></li>
+            </ul>
+        </div>
+    </section>
+</div>
+<div class="col-sm-9 mail-w3agile">
+    <section class="panel">
+        <header class="panel-heading wht-bg">
+            <h4 class="gen-case">
+                Inbox (@count)
+                @using (Html.BeginForm("Mail", "Home", FormMethod.Get, new { @class = "pull-right mail-src-position" }))
+                {
+                    <div class="input-append">
+                        <div class="col-lg-8">
+                            @Html.TextBox("SearchString", "", ViewBag.CurrentFilter as string, new { @class = "form-control", @onfocus = "this.value = '';", })
+                        </div>
+                        <div class="col-lg-1">
+                            <input type="submit" value="Search" class="btn btn-send" />
+                        </div>
+                    </div>
+                }
+            </h4>
+        </header>
+        <div class="panel-body minimal">
+            <div class="mail-option">
+                <div class="chk-all">
+                    <div class="pull-left mail-checkbox ">
+                        <input type="checkbox" onclick="if (this.checked) { check(); } else { uncheck();}" class="">
+                    </div>
+
+                    <div class="btn-group">
+                        <a data-toggle="dropdown" href="#" id="displayCheck" class="btn mini all">
+                            All
+                        </a>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <a data-original-title="Refresh" data-placement="top" data-toggle="dropdown" href="/Admin/Home/Mail" class="btn mini tooltips">
+                        <i class=" fa fa-refresh"></i>
+                    </a>
+                </div>
+                <div class="btn-group hidden-phone">
+                    <a data-toggle="dropdown" href="#" class="btn mini blue">
+                        More
+                        <i class="fa fa-angle-down "></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#"><i class="fa fa-pencil"></i> Mark as Read</a></li>
+                        <li><a href="#"><i class="fa fa-ban"></i> Spam</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group">
+                    <a data-toggle="dropdown" href="#" class="btn mini blue">
+                        Move to
+                        <i class="fa fa-angle-down "></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#"><i class="fa fa-pencil"></i> Mark as Read</a></li>
+                        <li><a href="#"><i class="fa fa-ban"></i> Spam</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="table-inbox-wrap ">
+                <table class="table table-inbox table-hover">
+                    <tbody>
+                        @foreach (var item in Model)
+                        {                        
+                            if (item.status == 1)
+                            {
+                                <tr class="unread">
+                                    <td class="inbox-small-cells">
+                                        <input type="checkbox" class="mail-checkbox" id="myCheck">
+                                    </td>
+                                    <td class="inbox-small-cells"><i class="fa fa-star"></i></td>
+                                    <td class="view-message  dont-show"><a href="/Admin/Home/DetailsMail?id=@item.Id" onclick="updateMess(@item.Id);">@item.Displayname</a></td>
+                                    <td class="view-message "><a href="/Admin/Home/DetailsMail?id=@item.Id" onclick="updateMess(@item.Id);">@item.Content</a></td>
+                                    <td class="view-message  inbox-small-cells"><i class="fa fa-paperclip"></i></td>
+                                    <td class="view-message  text-right">
+                                        @{
+                                            string Date = item.Created.Year + "-" + item.Created.Month + "-" + item.Created.Day;
+                                            @Date
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            if (item.status == 2)
+                            {
+                                <tr class="">
+                                    <td class="inbox-small-cells">
+                                        <input type="checkbox" class="mail-checkbox" id="myCheck" >
+                                    </td>
+                                    <td class="inbox-small-cells">
+                                        <i class="fa fa-star"></i>
+                                    </td>
+                                    <td class="view-message  dont-show"><a href="/Admin/Home/DetailsMail?id=@item.Id">@item.Displayname</a></td>
+                                    <td class="view-message "><a href="/Admin/Home/DetailsMail?id=@item.Id">@item.Content</a></td>
+                                    <td class="view-message  inbox-small-cells"><i class="fa fa-paperclip"></i></td>
+                                    <td class="view-message  text-right">
+                                        @{
+                                            string Date = item.Created.Year + "-" + item.Created.Month + "-" + item.Created.Day;
+                                            @Date
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+                <ul class="unstyled inbox-pagination">
+                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)  of @Model.PageCount
+                    @Html.PagedListPager(Model, page => Url.Action("Mail", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                </ul>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+

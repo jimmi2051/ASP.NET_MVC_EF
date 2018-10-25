@@ -1,0 +1,117 @@
+﻿@model SuperMarketMini.Models.RegisterUser
+@{
+                /**/
+
+                ViewBag.Title = "Register";
+                Layout = "~/Views/Shared/_Layout.cshtml";
+                <script src='https://www.google.com/recaptcha/api.js'></script>
+}
+<!-- breadcrumbs -->
+<div class="breadcrumbs">
+    <div class="container">
+        <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+            <li><a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+            <li class="active">Register Page</li>
+        </ol>
+    </div>
+</div>
+<!-- //breadcrumbs -->
+<!-- register -->
+<div class="register">
+    <div class="container">
+        <h2>Register Here</h2>
+        <div class="login-form-grids">
+            @if (ViewBag.Success != null)
+            {
+                <div class="alert alert-success">@ViewBag.Success</div>               
+            }
+            <h6>Login information</h6>
+            @using (Html.BeginForm("Register", "Users", FormMethod.Post,new {@id="idform" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="control-group">
+                    @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label" })
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.Username, new { @class = "form-control", @type = "text", @maxlength = "20" })
+                        @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="control-group" id="classidpassword">
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label" })
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.Password, new { @class = "form-control", @type = "password", @id = "password" })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="control-group" id="classidrepassword">
+                    @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label" })
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.ConfirmPassword, new { @class = "form-control", @type = "password", @maxlength = "50", @id = "repassword", @onkeyup = "checkPassword();" })
+                        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="control-group" id="classemail">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @type = "email", @maxlength = "50", @onkeyup = "validateEmail(this.value);" })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label" })
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.Phone, new { @class = "form-control", @type = "text",@maxlength = "15" })
+                        @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="control-group">
+                    @Html.LabelFor(model => model.DisplayName, htmlAttributes: new { @class = "control-label" })
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.DisplayName, new { @class = "form-control", @type = "text" })
+                        @Html.ValidationMessageFor(model => model.DisplayName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    @Html.LabelFor(model => model.Sex, new { @class = "control-label" })
+                    <div class="controls" style="text-align:center">
+                        @Html.RadioButtonFor(model => model.Sex, "Male") Male
+                        @Html.RadioButtonFor(model => model.Sex, "Female") Female
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label>Recaptcha</label>
+                    <div class="controls">
+                        <div class="g-recaptcha" data-sitekey="@{ @Infrastructure.Information.GoogleID }"></div>
+                        @{
+                            if (ViewBag.Message != null)
+                            {
+                                <div class="alert alert-danger">@ViewBag.Message</div>
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <input type="submit" value="Register">
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="register-home">
+            <a href="/">Home</a>
+        </div>
+    </div>
+</div>
+@if (ViewBag.Success != null)
+{
+    <script type="text/javascript">
+        $("#idform").html('');
+    </script>
+}

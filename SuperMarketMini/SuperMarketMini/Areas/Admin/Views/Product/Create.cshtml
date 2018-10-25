@@ -1,0 +1,139 @@
+﻿@model SuperMarketMini.Domain.Product
+@{
+    ViewBag.Title = "Create product";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#imgDisplay')
+                    .attr('src', e.target.result)
+                    .width(120)
+                    .height(120);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+<div class="form-w3layouts">
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    Create new products
+                    <span class="tools pull-right">
+                        <a class="fa fa-chevron-down" href="javascript:;"></a>
+                        <a class="fa fa-cog" href="javascript:;"></a>
+                        <a class="fa fa-times" href="javascript:;"></a>
+                    </span>
+                </header>
+                <div class="panel-body">
+                    <div class="form">
+                        @using (Html.BeginForm("Create", "Product", FormMethod.Post, new { @class = "cmxform form-horizontal", @id = "signupForm",enctype = "multipart/form-data"  }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <fieldset>                               
+                                 @Html.Hidden("type","Products")
+                                 @Html.Hidden("size","400")
+                                @Html.HiddenFor(model=>model.ProductID)
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ProductID, new { @class = "control-label col-lg-3", @for = "focusedInput" })
+                                    <div class="col-lg-6">
+                                       <input disabled="disabled" class="form-control" value="@Model.ProductID"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Name, new { @class = "control-label col-lg-3", @for = "focusedInput" })
+                                    <div class="col-lg-6">
+                                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @type = "text", @id = "focusedInput" , @maxlength = "255" })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Detail, new { @class = "control-label col-lg-3", @for = "focusedInput" })
+                                    <div class="col-lg-6">
+                                        @Html.TextAreaFor(model => model.Detail, new { @class = "form-control", @type = "text", @id = "focusedInput" })
+                                        @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Images, new { @class = "control-label col-lg-3", @for = "focusedInput" })
+                                    <div class="col-lg-6">
+                                        <input type="file" name="file" class="btn btn-default form-control" onchange="readURL(this);" />
+                                        @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label  class="control-label col-lg-3">Display images</label>                                    
+                                    <div class="col-lg-6">
+                                        <img src="~/Images/Users/noimg.jpg" width="120" height="120" id="imgDisplay" /><br /><br />
+                                        @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Quality, new { @class = "control-label col-lg-3", @for = "focusedInput" })
+                                    <div class="col-lg-6">
+                                        @Html.TextBoxFor(model => model.Quality, new { @class = "form-control", @type = "text", @id = "focusedInput", @maxlength = "6" })
+                                        @Html.ValidationMessageFor(model => model.Quality, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.PriceBuy, new { @class = "control-label col-lg-3", @for = "focusedInput" })
+                                    <div class="col-lg-6">
+                                        @Html.TextBoxFor(model => model.PriceBuy, new { @class = "form-control", @type = "text", @id = "focusedInput", @maxlength = "6" })
+                                        @Html.ValidationMessageFor(model => model.PriceBuy, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.PriceSell, new { @class = "control-label col-lg-3", @for = "focusedInput" })
+                                    <div class="col-lg-6">
+                                        @Html.TextBoxFor(model => model.PriceSell, new { @class = "form-control", @type = "text", @id = "focusedInput", @maxlength = "6" })
+                                        @Html.ValidationMessageFor(model => model.PriceSell, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.UnitBrief, new { @class = "control-label col-lg-3", @for = "focusedInput" })
+                                    <div class="col-lg-6">
+                                        @Html.TextBoxFor(model => model.UnitBrief, new { @class = "form-control", @type = "text", @id = "focusedInput" })
+                                        @Html.ValidationMessageFor(model => model.UnitBrief, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CategoryID, "CategoryID", new { @class = "control-label col-lg-3", @for = "selectError" })
+                                    <div class="col-lg-6">
+                                        @Html.DropDownList("CategoryID", null, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.SupplierID, "SupplierID", new { @class = "control-label col-lg-3", @for = "selectError" })
+                                    <div class="col-lg-6">
+                                        @Html.DropDownList("SupplierID", null, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.SupplierID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-lg-offset-3 col-lg-6">
+                                        <button type="submit" class="btn btn-success">Create product</button>
+                                        <button class="btn">Cancel</button>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                        }
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

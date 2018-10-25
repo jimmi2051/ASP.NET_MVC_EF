@@ -1,0 +1,172 @@
+﻿@model SuperMarketMini.Domain.Order
+@{
+    ViewBag.Title = "Payment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var _list = (List<SuperMarketMini.Models.CartItem>)ViewBag.List;
+}
+<div class="breadcrumbs">
+    <div class="container">
+        <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+            <li><a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+            <li class="active">Payment</li>
+        </ol>
+    </div>
+</div>
+<!-- //breadcrumbs -->
+<!-- register -->
+<div class="products">
+    <div class="container">
+        <div class="col-md-6 products-left">
+            <div class="categories">
+                <h2>Shipperment</h2>
+                <div class="login-form-grids" style="width:100%">
+                    <h6>Information delivery address</h6>
+                    @using (Html.BeginForm("Payment", "Cart", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.OrderID)
+                        @Html.HiddenFor(model => model.Username)
+                        @Html.HiddenFor(model => model.Amount)
+                        <div class="control-group ">
+                            <label for="firstname" class="control-label  ">@Html.DisplayNameFor(model => model.OrderID)</label>
+                            <div class="controls">
+                                <input class="form-control" type="text" disabled="disabled" value="@Html.DisplayFor(model=>model.OrderID)" />
+                            </div>
+                        </div>
+
+                        <div class="control-group ">
+                            <label for="firstname" class="control-label  ">@Html.DisplayNameFor(model => model.Username)</label>
+                            <div class="controls">
+                                <input class="form-control" type="text" disabled="disabled" value="@Html.DisplayFor(model=>model.Username)" />
+                            </div>
+                        </div>
+                        <div class="control-group ">
+                            <label for="firstname" class="control-label  ">@Html.DisplayNameFor(model => model.Amount)</label>
+                            <div class="controls">
+                                <input class="form-control" type="text" disabled="disabled" value="@Html.DisplayFor(model=>model.Amount)" />
+                            </div>
+                        </div>
+                        <div class="control-group" id="classaddress">
+                            <label class="control-label">Address to ship</label>
+                            <div class="controls">
+                                @Html.TextBoxFor(model => model.Address, new { @class = "form-control" ,@id="address"})
+                                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Description</label>
+                            <div class="controls">
+                                @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Contact</label>
+                            <div class="controls">
+                                @Html.TextBoxFor(model => model.Contact, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Contact, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        @Html.HiddenFor(model => model.OrderDate)
+                        <div class="control-group ">
+                            <label for="firstname" class="control-label  ">@Html.DisplayNameFor(model => model.OrderDate)</label>
+                            <div class="controls">
+                                <input class="form-control" type="text" disabled="disabled" value="@Html.DisplayFor(model=>model.OrderDate)" />
+                            </div>
+                        </div>
+
+                        @Html.HiddenFor(model => model.RequireDate)
+                        <div class="control-group ">
+                            <label for="firstname" class="control-label  ">@Html.DisplayNameFor(model => model.RequireDate)</label>
+                            <div class="controls">
+                                <input class="form-control" type="text" disabled="disabled" value="@Html.DisplayFor(model=>model.RequireDate)" />
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <div class="controls">
+                                <input type="submit" class="btn btn-success" id="submit" value="Confirm to pay">
+                            </div>
+                        </div>
+                    }
+                </div>
+                <hr />
+            </div>
+        </div>
+        <script>
+            var element = document.getElementById('address');
+            var filter = document.getElementById('submit');
+            filter.onclick = function () {
+                if (element.value=="") {
+                    toastr["warning"]("Address is required. ", "Errors !!");
+                    document.getElementById('classaddress').className += ' has-error';
+                    return false;
+                }
+            }
+        </script>
+        <div class="col-md-6 products-right">
+            <div class="products-right-grid">
+                <div class="agile_top_brands_grids">
+                    <table class="timetable_sub">
+                        <thead>
+                            <tr>
+                                <th>SL No.</th>
+                                <th>Product</th>
+                                <th>Quality</th>
+                                <th>Product Name</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        @{
+                            foreach (var item in _list)
+                            {
+                                <tr class="@item.Product.ProductID">
+                                    <td class="invert">@item.Product.ProductID</td>
+                                    <td class="invert-image"><img src="@item.Product.Images" /></td>
+                                    <td class="invert">
+                                        <div class="quantity">
+                                            <input value="@item.Quality" size="1" style="font-size:25px;" disabled="disabled" />
+                                        </div>
+                                    </td>
+                                    <td class="invert">@item.Product.Name</td>
+
+                                    <td class="invert">
+                                        @{
+                                            float display = item.Product.PriceSell - item.Product.PriceSell * item.Product.Discount / 100;
+                                            @String.Format("{0:0.00}", display)
+                                        } $
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
+                <div class="agile_top_brands_grids">
+                    <div class="checkout-left-basket" style="width:100%">
+                        <h4>About order</h4>
+                        <ul>
+                            @{
+                                float sum = 0;
+                                foreach (var item in _list)
+                                {
+                                    float total = item.Quality * (item.Product.PriceSell - item.Product.PriceSell * item.Product.Discount / 100);
+                                    sum += total;
+                                }
+                            }
+                            <li>Total money: <span>  @String.Format("{0:0.00}", sum) $</span></li>
+                            <li>Sales <span> # $</span></li>
+                            <li>Value Added Tax: <span> # $</span></li>
+                            <li>Total Service Charges: <span> # $</span></li>
+                            <li>Total to payment: <span> @String.Format("{0:0.00}", sum) $</span></li>
+                        </ul>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+            </div>
+            <div class="register-home">
+                <a href="/">Comeback home to buy more item</a>
+            </div>
+        </div>
+    </div>
+</div>

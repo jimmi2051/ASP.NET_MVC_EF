@@ -1,0 +1,103 @@
+﻿@model List<SuperMarketMini.Domain.Supplier>
+@{
+    string Label = "Lorem";
+}
+<!--brands-->
+<div class="brands">
+    <div class="container">
+        <h3>Brand Store</h3>
+        <div class="brands-agile">
+            @{
+
+                for (int i = 0; i < 6; i++)
+                {
+                    <div class="col-md-2 w3layouts-brand">
+                        <div class="brands-w3l">
+                            <p>
+
+                                @{
+
+                                    if (i >= Model.Count)
+                                    {
+                                        <a href="#">
+                                            @Label
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="/Products/listProductbyCat?sup=@Model[i].SupplierID">
+                                            @Model[i].SupplierID
+                                        </a>
+                                    }
+                                }
+
+                            </p>
+                        </div>
+                    </div>
+                }
+            }
+            <div class="clearfix"></div>
+        </div>
+        <div class="brands-agile-1">
+            @{
+
+                for (int i = 6; i < 12; i++)
+                {
+                    <div class="col-md-2 w3layouts-brand">
+                        <div class="brands-w3l">
+                            <p>
+                                @{
+
+                                    if (i >= Model.Count)
+                                    {
+                                        <a href="#">
+                                            @Label
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="/Products/listProductbyCat?sup=@Model[i].SupplierID">
+                                            @Model[i].SupplierID
+                                        </a>
+                                    }
+                                }
+                            </p>
+                        </div>
+                    </div>
+                }
+            }
+            <div class="clearfix"></div>
+        </div>
+        <div class="brands-agile-2">
+            @{
+
+                for (int i = 12; i < 18; i++)
+                {
+                    <div class="col-md-2 w3layouts-brand">
+                        <div class="brands-w3l">
+                            <p>
+                                @{
+
+                                    if (i >= Model.Count)
+                                    {
+                                        <a href="#">
+                                            @Label
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="/Products/listProductbyCat?sup=@Model[i].SupplierID">
+                                            @Model[i].SupplierID
+                                        </a>
+                                    }
+                                }
+                            </p>
+                        </div>
+                    </div>
+                }
+            }
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<!--//brands-->

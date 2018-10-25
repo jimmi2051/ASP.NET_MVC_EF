@@ -1,0 +1,75 @@
+﻿@model SuperMarketMini.Domain.Message
+@{
+    ViewBag.Title = "DetailsMail";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    int count = (int)ViewBag.Count;
+}
+
+<div class="col-sm-3 com-w3ls">
+    <section class="panel">
+        <div class="panel-body">
+            <a href="mail_compose.html" class="btn btn-compose">
+                Compose Mail
+            </a>
+            <ul class="nav nav-pills nav-stacked mail-nav">
+                <li class="active"><a href="/Admin/Home/Mail"> <i class="fa fa-inbox"></i> Inbox  <span class="label label-danger pull-right inbox-notification">@count</span></a></li>
+                <li><a href="/Admin/Home/SendMail"> <i class="fa fa-envelope-o"></i> Send Mail</a></li>
+                <li><a href="#"> <i class="fa fa-certificate"></i> Important</a></li>
+                <li><a href="#"> <i class="fa fa-file-text-o"></i> Drafts <span class="label label-info pull-right inbox-notification"></span></a></a></li>
+                <li><a href="#"> <i class="fa fa-trash-o"></i> Trash</a></li>
+            </ul>
+        </div>
+    </section>
+</div>
+<div class="col-sm-9 mail-w3agile">
+    <section class="panel">
+        <header class="panel-heading wht-bg">
+            <h4 class="gen-case">
+                Information message @Model.Sendby
+                <hr />
+                @using (Html.BeginForm("Mail", "Home", FormMethod.Get, new { @class = "pull-right mail-src-position" }))
+                {
+                    <div class="input-append">
+                        <div class="col-lg-8">
+                            @Html.TextBox("SearchString", "", ViewBag.CurrentFilter as string, new { @class = "form-control", @onfocus = "this.value = '';", })
+                        </div>
+                        <div class="col-lg-1">
+                            <input type="submit" value="Search" class="btn btn-send" />
+                        </div>
+                    </div>
+                }
+            </h4>
+        </header>
+        <div class="panel-body">
+            <div class="compose-mail">
+                <form role="form-horizontal" method="post">
+                    <div class="form-group">
+                        <label for="to" class="">Form: </label>
+                        <input type="text" tabindex="1" id="to" class="form-control" disabled="disabled" value="@Model.Displayname<@Model.Sendby>">
+                    </div>
+                    <div class="compose-editor">
+                        <textarea class="wysihtml5 form-control" rows="9" disabled="disabled">@Model.Content</textarea>
+                    </div>
+                </form>
+                @using (Html.BeginForm("DetailsMail", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.Hidden("ID",Model.Id)
+                    @Html.Hidden("Email",Model.Sendby)
+                    <div class="form-group">
+                        <label for="to" class="">To: </label>
+                        <input type="text" tabindex="1" id="to" class="form-control" disabled="disabled" value="@Model.Displayname<@Model.Sendby>">
+                    </div>
+                    <div class="compose-editor">
+                        @Html.TextArea("IContent",new { @class="wysihtml5 form-control", @rows="9", @placeholder="Click here to reply"})                      
+                    </div>
+                    <div class="compose-btn">
+                        <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-check"></i> Send Reply</button>
+                        <button class="btn btn-sm" type="reset"><i class="fa fa-times"></i> Discard</button>
+                        <button class="btn btn-sm">Draft</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+</div>
+

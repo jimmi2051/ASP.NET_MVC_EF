@@ -1,0 +1,74 @@
+﻿@model SuperMarketMini.Domain.Category
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    List<SelectListItem> _list = new List<SelectListItem>();
+    SelectListItem _item1 = new SelectListItem() { Text = "Active", Value = "1" };
+    SelectListItem _item2 = new SelectListItem() { Text = "Unactive", Value = "2" };
+    _list.Add(_item1);
+    _list.Add(_item2);
+}
+
+<div class="form-w3layouts">
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    Create Category
+                    <span class="tools pull-right">
+                        <a class="fa fa-chevron-down" href="javascript:;"></a>
+                        <a class="fa fa-cog" href="javascript:;"></a>
+                        <a class="fa fa-times" href="javascript:;"></a>
+                    </span>
+                </header>
+                <div class="panel-body">
+                    <div class="form">
+                        @using (Html.BeginForm("Create", "Category", FormMethod.Post, new { @class = "cmxform form-horizontal", @id = "signupForm" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <fieldset>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CategoryID, new { @class = "control-label col-lg-3", @for = "focusedInput" })
+                                    <div class="col-lg-6">
+                                        @Html.TextBoxFor(model => model.CategoryID, new { @class = "form-control", @type = "text", @id = "focusedInput" })
+                                        @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Name, new { @class = "control-label col-lg-3", @for = "focusedInput" })
+                                    <div class="col-lg-6">
+                                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @type = "text", @id = "focusedInput" })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.GroupName, new { @class = "control-label col-lg-3", @for = "focusedInput" })
+                                    <div class="col-lg-6">
+                                        @Html.TextBoxFor(model => model.GroupName, new { @class = "form-control", @type = "text", @id = "focusedInput" })
+                                        @Html.ValidationMessageFor(model => model.GroupName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <label class="control-label col-lg-3">@Html.DisplayNameFor(model => model.Status)</label>
+                                    <div class="col-lg-6">
+                                        @Html.DropDownList("Status", _list, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-offset-3 col-lg-6">
+                                        <button type="submit" class="btn btn-success">Create category</button>
+                                        <button type="reset" class="btn">Refresh</button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        }
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+

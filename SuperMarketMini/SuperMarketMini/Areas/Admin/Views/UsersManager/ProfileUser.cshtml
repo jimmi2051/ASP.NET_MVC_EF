@@ -1,0 +1,244 @@
+﻿@model SuperMarketMini.Domain.User
+
+@{
+    ViewBag.Title = "ProfileUser";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    List<SelectListItem> _list = new List<SelectListItem>();
+    SelectListItem _item1 = new SelectListItem() { Text = "Active", Value = "1" };
+    SelectListItem _item2 = new SelectListItem() { Text = "Pending", Value = "2" };
+    SelectListItem _item3 = new SelectListItem() { Text = "Banned", Value = "3" };
+    _list.Add(_item1);
+    _list.Add(_item2);
+    _list.Add(_item3);
+}
+<script src="~/Content/MyScript.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#imgDisplay')
+                    .attr('src', e.target.result)
+                    .width(120)
+                    .height(120);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+<div class="form-w3layouts">
+    <!-- page start-->
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    About information user
+                    <span class="tools pull-right">
+                        <a class="fa fa-chevron-down" href="javascript:;"></a>
+                        <a class="fa fa-cog" href="javascript:;"></a>
+                        <a class="fa fa-times" href="javascript:;"></a>
+                    </span>
+                </header>
+                <hr />
+                @{
+                    if (ViewBag.Success != null)
+                    {
+                        <div class="alert alert-success">
+                            @ViewBag.Success
+                        </div>
+                    }
+                }
+                <hr />
+                <div class="panel-body">
+                    <div class="form">
+                        <div style="text-align:center">
+                            @using (Html.BeginForm("ProfileUser", "UsersManager", FormMethod.Post, new { @class = "cmxform form-horizontal", @id = "signupForm", enctype = "multipart/form-data" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.Username)
+                                @Html.Hidden("urlrequest", "/admin/profile-" + Html.DisplayFor(model => model.Username))
+                                @Html.Hidden("type", "Users")
+                                @Html.Hidden("size", "400")
+                                @Html.Hidden("username", Html.DisplayFor(model => model.Username))
+                                <img src="@Model.Images" width="120" height="120" id="imgDisplay" /><br /><br />
+                                <div class="form-group ">
+                                    <label for="lastname" class="control-label col-lg-3">Changes avatar</label>
+                                    <div class="col-lg-6">
+                                        <input type="file" name="file" class="btn btn-default form-control" onchange="readURL(this);" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="firstname" class="control-label col-lg-3">@Html.DisplayNameFor(model => model.Username)</label>
+                                    <div class="col-lg-6">
+                                        <input class="form-control" type="text" disabled="disabled" value="@Html.DisplayFor(model=>model.Username)" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastname" class="control-label col-lg-3">@Html.DisplayNameFor(model => model.Password)</label>
+                                    <div class="col-lg-6">
+                                        @Html.TextBoxFor(model => model.Password, new { @type = "password", @class = "form-control", @id = "password", @onfocus = "this.value = '';" })
+                                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group" id="classidrepassword">
+                                    <label for="lastname" class="control-label col-lg-3">Confirm password</label>
+                                    <div class="col-lg-6">
+                                        <input class="form-control" value="" id="repassword" name="password" type="password" onkeyup="checkPassword();">
+                                    </div>
+                                </div>
+                                @Html.HiddenFor(model => model.Email)
+                                <div class="form-group ">
+                                    <label for="firstname" class="control-label col-lg-3">@Html.DisplayNameFor(model => model.Email)</label>
+                                    <div class="col-lg-6">
+                                        <input class="form-control" type="text" disabled="disabled" value="@Html.DisplayFor(model=>model.Email)" />
+                                    </div>
+                                </div>
+
+                                @Html.HiddenFor(model => model.Images)
+
+                                @Html.HiddenFor(model => model.Phone)
+
+                                @Html.HiddenFor(model => model.Address1)
+
+                                @Html.HiddenFor(model => model.Address2)
+                                @Html.HiddenFor(model => model.Birthday)
+                                <div class="form-group ">
+                                    <label for="lastname" class="control-label col-lg-3">@Html.DisplayNameFor(model => model.DisplayName)</label>
+                                    <div class="col-lg-6">
+                                        @Html.TextBoxFor(model => model.DisplayName, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.DisplayName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                @Html.HiddenFor(model => model.Point)
+                                <div class="form-group ">
+                                    <label for="lastname" class="control-label col-lg-3">@Html.DisplayNameFor(model => model.Point)</label>
+                                    <div class="col-lg-6">
+                                        @Html.TextBoxFor(model => model.Point, new { @type = "text", @class = "form-control", @disabled = "disabled" })
+                                        @Html.ValidationMessageFor(model => model.Point, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                @Html.HiddenFor(model => model.Trust)
+                                <div class="form-group ">
+                                    <label for="lastname" class="control-label col-lg-3">@Html.DisplayNameFor(model => model.Trust)</label>
+                                    <div class="col-lg-6">
+                                        @Html.TextBoxFor(model => model.Trust, new { @type = "text", @class = "form-control", @disabled = "disabled" })
+                                        @Html.ValidationMessageFor(model => model.Trust, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                @Html.HiddenFor(model => model.Sex)
+                                @Html.HiddenFor(model => model.Created)
+                                @Html.HiddenFor(model => model.Status)
+                                <div class="form-group ">
+                                    <label class="control-label col-lg-3">@Html.DisplayNameFor(model => model.Status)</label>
+                                    <div class="col-lg-6">
+                                        @Html.DropDownList("Status", _list, new { @class = "form-control", @disabled = "disabled" })
+                                        @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                @Html.HiddenFor(model => model.TypeID)
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3">Role</label>
+                                    <div class="col-lg-6">
+                                        @Html.DropDownList("TypeID", null, new { @class = "form-control", @disabled = "disabled" })
+                                        @Html.ValidationMessageFor(model => model.TypeID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-lg-offset-3 col-lg-6">
+                                        <button class="btn btn-success" type="submit">Update</button>
+                                        <button class="btn btn-default" type="reset">Reset</button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<div class="form-w3layouts">
+    <!-- page start-->
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    About profile user
+                    <span class="tools pull-right">
+                        <a class="fa fa-chevron-down" href="javascript:;"></a>
+                        <a class="fa fa-cog" href="javascript:;"></a>
+                        <a class="fa fa-times" href="javascript:;"></a>
+                    </span>
+                </header>
+                <div class="panel-body">
+                    <div class="form">
+                        @using (Html.BeginForm("ProfileUser", "UsersManager", FormMethod.Post, new { @class = "cmxform form-horizontal", @id = "signupForm" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.Username)
+                            @Html.HiddenFor(model => model.Password)
+                            @Html.HiddenFor(model => model.DisplayName)
+                            @Html.HiddenFor(model => model.Email)
+                            @Html.HiddenFor(model => model.Point)
+                            @Html.HiddenFor(model => model.Trust)
+                            @Html.HiddenFor(model => model.Status)
+                            @Html.HiddenFor(model => model.Created)
+                            @Html.HiddenFor(model => model.TypeID)
+                            <div class="form-group ">
+                                <label for="lastname" class="control-label col-lg-3">@Html.DisplayNameFor(model => model.Address1)</label>
+                                <div class="col-lg-6">
+                                    @Html.TextBoxFor(model => model.Address1, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Address1, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="lastname" class="control-label col-lg-3">@Html.DisplayNameFor(model => model.Address2)</label>
+                                <div class="col-lg-6">
+                                    @Html.TextBoxFor(model => model.Address2, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Address2, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="lastname" class="control-label col-lg-3">@Html.DisplayNameFor(model => model.Birthday)</label>
+                                <div class="col-lg-6">
+                                    @Html.TextBoxFor(model => model.Birthday, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            @Html.HiddenFor(model => model.Images)
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Sex, new { @class = "control-label col-lg-3", @for = "focusedInput" })
+                                <div class="col-lg-6">
+                                    <label style="cursor:default" class="radio-inline radio">
+                                        @Html.RadioButtonFor(model => model.Sex, "Male") Male
+                                    </label>
+                                    <label style="cursor:default" class="radio-inline radio">@Html.RadioButtonFor(model => model.Sex, "Female") Female</label>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="firstname" class="control-label col-lg-3">@Html.DisplayNameFor(model => model.Created)</label>
+                                <div class="col-lg-6">
+                                    <input class="form-control" type="text" disabled="disabled" value="@Html.DisplayFor(model=>model.Created)" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-offset-3 col-lg-6">
+                                    <button class="btn btn-success" type="submit">Update</button>
+                                    <button class="btn btn-default" type="reset">Reset</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+

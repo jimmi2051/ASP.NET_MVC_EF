@@ -1,0 +1,104 @@
+﻿@model List<SuperMarketMini.Models.CartItem>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int count = 1;
+}
+
+<div class="breadcrumbs">
+    <div class="container">
+        <ol class="breadcrumb breadcrumb1">
+            <li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+            <li class="active">Checkout Page</li>
+        </ol>
+    </div>
+</div>
+<!-- //breadcrumbs -->
+<!-- checkout -->
+<div class="checkout">
+    <div class="container">
+        <h2>Your shopping cart contains: <span>@Model.Count</span></h2>
+        <div class="checkout-right">
+            <table class="timetable_sub">
+                <thead>
+                    <tr>
+                        <th>SL No.</th>
+                        <th>Product</th>
+                        <th>Quality</th>
+                        <th>Product Name</th>
+                        <th>Price</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                @{
+                    foreach (var item in Model)
+                    {
+                        <tr class="@item.Product.ProductID">
+                            <input type="hidden" id="QuaOf@{@count}" value="@item.Product.Quality" />
+                            <input type="hidden" id="PID@{@count}" value="@item.Product.ProductID" />
+                            <td class="invert" id="PID@{@count}">@item.Product.ProductID</td>
+                            <td class="invert-image"><img src="@item.Product.Images" /></td>
+                            <td class="invert">
+                                <div class="quantity">
+                                    <div class="quantity-select">
+                                        <button class="entry value-minus" onclick="subtractionItem(@count);">&nbsp;</button>
+                                        <input value="@item.Quality" id="Qua@{@count}" size="1" maxlength = "3" style="font-size:25px;" onchange="changItems(@count);" />
+                                        <button class="entry value-plus active" onclick="addnewItem(@count);">&nbsp;</button>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="invert">@item.Product.Name</td>
+
+                            <td class="invert">
+                                @{
+                                    float display = item.Product.PriceSell - (item.Product.PriceSell * item.Product.Discount) / 100;
+                                    @String.Format("{0:0.00}", display)
+                                } $
+                            </td>
+                            <td class="invert">
+                                <div class="rem">
+                                    <button class="btn btn-danger" onclick="RemoveItem(@count)"><i class="fa-remove fa"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        count++;
+                    }
+                }
+            </table>
+        </div>
+        <div class="checkout-left">
+            <div class="checkout-left-basket">
+                <h4>Continue to basket</h4>
+                <ul id="totalgood1">
+                    @{
+                        float sum = 0;
+                        foreach (var item in Model)
+                        {
+                            float total = item.Quality * (item.Product.PriceSell - (item.Product.PriceSell * item.Product.Discount) / 100);
+                            sum += total;
+                        }
+                    }
+                    <li>Total money: <span> @String.Format("{0:0.00}", sum) $</span></li>
+                    <li>Sales <span> # $</span></li>
+                    <li>Value Added Tax: <span> # $</span></li>
+                    <li>Total Service Charges: <span> # $</span></li>
+                    <li id="valuepay" value=" @String.Format("{0:0.00}", sum)">Total to payment: <span> @String.Format("{0:0.00}", sum) $</span></li>
+                </ul>
+            </div>
+
+            <div class="checkout-right-basket">
+                <a href="/Products/listProductbyCat"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Continue Shopping</a>
+                <a href="/cart/payment" id="payment"><span class="glyphicon glyphicon-check" aria-hidden="true"></span>To Pay</a>
+            </div>
+            <script>
+                document.getElementById("payment").onclick = function (e) {
+                    if (document.getElementById("valuepay").value == 0) {
+                        e.preventDefault();
+                        toastr["warning"]("You don't have items. Shopping and comback here. Thanks", "Warring !!!");
+                    }
+                };
+            </script>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+</div>

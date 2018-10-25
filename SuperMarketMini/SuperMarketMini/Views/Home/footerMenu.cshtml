@@ -1,0 +1,85 @@
+﻿@using SuperMarketMini.Common;
+@{
+    @model IEnumerable<SuperMarketMini.Domain.Category>
+    List<String> _list = (List<String>)ViewBag.ListMenu;
+}
+<div class="footer">
+    <div class="container">
+        <div class="w3_footer_grids">
+            <div class="col-md-3 w3_footer_grid">
+                <h3>Contact</h3>
+                <ul class="address">
+                    <li><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>06 Nguyen Trai Street, District 5 <span>Ho Chi Minh City.</span></li>
+                    <li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a href="mailto:jimmi2051@gmail.com">jimmi2051@gmail.com</a></li>
+                    <li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+84 1869 363 575</li>
+                </ul>
+            </div>
+            <div class="col-md-3 w3_footer_grid">
+                <h3>Information</h3>
+                <ul class="info">
+                    <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="/Home/About">About Us</a></li>
+                    <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="/Home/Contact">Contact Us</a></li>
+                    <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="/Home/FAQ">FAQ's</a></li>
+                    <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="/Products/listProductbyCat">All Products</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 w3_footer_grid">
+                <h3>Category</h3>
+                <ul class="info">
+                    @{
+                        for (int i = 0; i < _list.Count; i++)
+                        {
+                            <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="/Products/listProductbyCat?group=@_list[i]">@_list[i]</a></li>
+                        }
+                    }
+                </ul>
+            </div>
+            <div class="col-md-3 w3_footer_grid">
+                <h3>Profile</h3>
+                <ul class="info">
+                    <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="/products/listProductbyCat">Store</a></li>
+                    <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="/cart/index">My Cart</a></li>
+                    @{
+                        SessionUser session = (SessionUser)Session[Infrastructure.Information.CommonConstantUsers];
+                        if (session != null)
+                        {
+                            <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="/users/profileuser/@session.Username">Profile account</a></li>
+                            <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="/Cart/ViewHistory">View History</a></li>
+                        }
+                        else
+                        {
+                            <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="/login">Login</a></li>
+                            <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="/register">Create Account</a></li>
+                        }
+                    }
+
+                </ul>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+
+    <div class="footer-copy">
+        <div class="container">
+            <p>© 2018 Supermarket mini - 06 Nguyen Trai Street, District 5, Ho Chi Minh City -- Online Users <strong id="counter"></strong></p>
+        </div>
+
+    </div>
+</div>
+<script>
+    $(function () {
+        var counterHub = $.connection.counterHub;
+        $.connection.hub.start().done(function () {
+            $.ajax({
+                url: '/Home/Counter/',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                },
+            });
+        });
+        counterHub.client.UpdateCount = function (count) {
+            $("#counter").text(count);
+        }
+    });
+</script>

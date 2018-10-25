@@ -1,0 +1,68 @@
+﻿@model IEnumerable<SuperMarketMini.Domain.Order>
+@{
+    ViewBag.Title = "ViewHistory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="breadcrumbs">
+    <div class="container">
+        <ol class="breadcrumb breadcrumb1">
+            <li><a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+            <li class="active">History</li>
+        </ol>
+    </div>
+</div>
+<div class="checkout">
+    <div class="container">
+        <h2>You have <span>@Model.ToList().Count</span> order</h2>
+        <div class="checkout-right">
+            <table class="timetable_sub">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Amount</th>
+                        <th>Address</th>
+                        <th>Contact</th>
+                        <th>Required date</th>
+                        <th>Status</th>
+                        <th>Details</th>
+                    </tr>
+</thead>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="invert">@item.OrderID</td>
+                            <td class="invert">@item.Amount</td>
+                            <td class="invert">@item.Address</td>
+                            <td class="invert">@item.Contact</td>
+                            <td class="invert">@item.RequireDate</td>
+                            <td class="invert">
+                                @if (item.Status == 4)
+                                {
+                                    <span class="label label-warning">Return request</span>
+                                }
+                                @if (item.Status == 3)
+                                {
+                                    <span class="label label-success">Confirm received</span>
+                                }
+                                @if (item.Status == 2)
+                                {
+                                    <span class="label label-warning">Pending send</span>
+                                }
+                                @if (item.Status == 1)
+                                {
+                                    <span class="label label-default">New create</span>
+                                }
+                                @if (item.Status == -1)
+                                {
+                                    <span class="label label-danger">Cancel order</span>
+                                }
+                            </td>
+                            <td> <a class="btn btn-info" href="/Cart/DetailsOrder/@item.OrderID">View Details</a></td>
+                        </tr>
+                    }
+            </table>
+        </div>
+    </div>
+</div>
+

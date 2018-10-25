@@ -1,0 +1,161 @@
+﻿@{
+    List<SuperMarketMini.Domain.Order> _listOrder = (List<SuperMarketMini.Domain.Order>)ViewBag.ListOrder;
+    int count = 0;
+    Dictionary<string, string> _notification = (Dictionary<string, string>)ViewBag.Notification;
+    List<SuperMarketMini.Domain.Message> _listMess = (List<SuperMarketMini.Domain.Message>)ViewBag.ListMess;
+}
+<div class="nav notify-row" id="top_menu">
+    <!--  notification start -->
+    <ul class="nav top-menu">
+        <!-- settings start -->
+        <li class="dropdown">
+            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                <i class="fa fa-tasks"></i>
+                <span class="badge bg-success">@_listOrder.Count</span>
+            </a>
+            @if (_listOrder.Count > 0)
+            {
+                <ul class="dropdown-menu extended tasks-bar">
+                    <li>
+                        <p class="">You have @_listOrder.Count pending tasks</p>
+                    </li>
+                    @foreach (var item in _listOrder)
+                    {
+                        if (count == 4)
+                        {
+                            break;
+                        }
+                        <li>
+                            <a href="#">
+                                <div class="task-info clearfix">
+                                    <div class="desc pull-left">
+                                        <h5>@item.OrderID need to be sent item</h5>
+                                        <p>@item.RequireDate</p>
+                                    </div>
+                                    <span class="notification-pie-chart pull-right" data-percent="45">
+                                        <span class="percent"></span>
+                                    </span>
+                                </div>
+                            </a>
+                        </li>
+                        count++;
+                    }
+                    <li class="external">
+                        <a href="#">See All Tasks</a>
+                    </li>
+                </ul>
+            }
+            else
+            {
+                <ul class="dropdown-menu extended tasks-bar">
+                    <li>
+                        <p class="">You have 0 pending tasks</p>
+                    </li>
+                </ul>
+            }
+        </li>
+        <!-- settings end -->
+        <!-- inbox dropdown start-->
+        <li id="header_inbox_bar" class="dropdown">
+            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                <i class="fa fa-envelope-o"></i>
+                <span class="badge bg-important">@_listMess.Count</span>
+            </a>
+            @if (_listMess.Count > 0)
+            {
+                count = 0;
+                <ul class="dropdown-menu extended inbox">
+                    <li>
+                        <p class="red">You have @_listMess.Count Mails</p>
+                    </li>
+                    @foreach (var item in _listMess)
+                    {
+                        if (count == 4)
+                        { break; }
+                        <li>
+                            <a href="/Admin/Home/DetailsMail?id=@item.Id" onclick="updateMess(@item.Id);">
+                                <span class="photo"><img alt="avatar" src="~/Images/Users/user.png"></span>
+                                <span class="subject">
+                                    <span class="from">@item.Displayname</span>
+                                    <span class="time">
+                                        @{
+                                            string Date = item.Created.Year + "-" + item.Created.Month + "-" + item.Created.Day;
+                                            @Date
+                                    }
+                                </span>
+                            </span>
+                            <span class="message">
+                                @item.Content
+                            </span>
+                        </a>
+                    </li>
+                    count++;
+                }
+
+                    <li>
+                        <a href="/Admin/Home/Mail">See all messages</a>
+                    </li>
+                </ul>
+            }
+            else
+            {
+                <ul class="dropdown-menu extended inbox">
+                    <li>
+                        <p class="red">You have 0 Mails</p>
+                    </li>
+                </ul>
+            }
+        </li>
+        <!-- inbox dropdown end -->
+        <!-- notification dropdown start-->
+        <li id="header_notification_bar" class="dropdown">
+            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+
+                <i class="fa fa-bell-o"></i>
+                <span class="badge bg-warning">@_notification.Count</span>
+            </a>
+            @if (_notification.Count > 0)
+            {
+                count = 0;
+                <ul class="dropdown-menu extended notification">
+                    <li>
+                        <p>Notifications</p>
+                    </li>
+                    @foreach (var item in _notification)
+                    {
+                        if (count == 4)
+                        {
+                            break;
+                        }
+                        if (item.Key.Substring(0, 2).Equals("HD"))
+                        {
+                            <li>
+                                <div class="alert alert-info clearfix">
+                                    <span class="alert-icon"><i class="fa fa-bolt"></i></span>
+                                    <div class="noti-info">
+                                        <a href="/Admin/Order/Details/@item.Key"> Order @item.Key out of date: @item.Value  </a>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                        if (item.Key.Substring(0, 2).Equals("SP"))
+                        {
+                            <li>
+                                <div class="alert alert-danger clearfix">
+                                    <span class="alert-icon"><i class="fa fa-bolt"></i></span>
+                                    <div class="noti-info">
+                                        <a href="/Admin/Product/Edit/@item.Key"> Product @item.Key only have @item.Value item</a>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                        count++;
+                    }
+                </ul>
+            }
+        </li>
+        <!-- notification dropdown end -->
+    </ul>
+    <!--  notification end -->
+</div>
+

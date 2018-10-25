@@ -1,0 +1,253 @@
+﻿@using SuperMarketMini.Domain;
+@{
+    List<Product> _listRelate = (List<SuperMarketMini.Domain.Product>)ViewBag.ListHot;
+    List<Product> _listSpecial = (List<SuperMarketMini.Domain.Product>)ViewBag.ListSpecial;
+    int countPR = 1;
+}
+<!-- top-brands -->
+<div class="top-brands">
+    <div class="container">
+        <h2>Top selling offers</h2>
+        <div class="grid_3 grid_5">
+            <div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
+                <ul id="myTab" class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#expeditions" id="expeditions-tab" role="tab" data-toggle="tab" aria-controls="expeditions" aria-expanded="true">Advertised offers</a></li>
+                    <li role="presentation"><a href="#tours" role="tab" id="tours-tab" data-toggle="tab" aria-controls="tours">Today Offers</a></li>
+                </ul>
+                <div id="myTabContent" class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade in active" id="expeditions" aria-labelledby="expeditions-tab">
+                        <div class="agile-tp">
+                            <h5>Advertised this week</h5>
+                            <p class="w3l-ad">We've pulled together all our advertised offers into one place, so you won't miss out on a great deal.</p>
+                        </div>
+                        <div class="agile_top_brands_grids">
+                            @{
+                                for (int i = 0; i < 3; i++)
+                                {
+                                    <div class="col-md-4 top_brand_left">
+                                        <div class="hover14 column">
+                                            <div class="agile_top_brand_left_grid">
+                                                <div class="agile_top_brand_left_grid_pos">
+                                                    <img src="/Assets/Client/images/offer.png" alt=" " class="img-responsive" />
+                                                </div>
+                                                <div class="agile_top_brand_left_grid1">
+                                                    <figure>
+                                                        <div class="snipcart-item block">
+                                                            <div class="snipcart-thumb">
+                                                                <a href="/Products/Details/@_listSpecial[i].ProductID"><img title=" " alt=" " height="150" width="150" src="@_listSpecial[i].Images" /></a>
+                                                                <p>@_listSpecial[i].Name</p>
+                                                                <div class="stars">
+                                                                    <i class="fa fa-star blue-star" aria-hidden="true"></i>
+                                                                    <i class="fa fa-star blue-star" aria-hidden="true"></i>
+                                                                    <i class="fa fa-star blue-star" aria-hidden="true"></i>
+                                                                    <i class="fa fa-star blue-star" aria-hidden="true"></i>
+                                                                    <i class="fa fa-star gray-star" aria-hidden="true"></i>
+                                                                </div>
+                                                                <h4>
+                                                                    $
+                                                                    @{
+                                                                        if (_listSpecial[i].Special == 1)
+                                                                        {
+                                                                            float display = _listSpecial[i].PriceSell - (_listSpecial[i].Discount * _listSpecial[i].PriceSell) / 100; @String.Format("{0:0.00}", display) <span>$ @_listSpecial[i].PriceSell</span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            @_listSpecial[i].PriceSell
+                                                                        }
+                                                                    }
+                                                                </h4>
+                                                            </div>
+                                                            <div class="snipcart-details top_brand_home_details">
+                                                                <input type="hidden" id="Name@{@countPR}" value="@_listSpecial[i].Name" />
+                                                                <input type="hidden" id="IMG@{@countPR}" value="@_listSpecial[i].Images" />
+                                                                <input type="hidden" id="@countPR" value="@_listSpecial[i].ProductID" />
+                                                                <input type="submit" value="Add to cart" class="button" onclick="myFunction(@countPR);" />
+                                                            </div>
+                                                        </div>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    countPR++;
+                                }
+                                <div class="clearfix"> </div>
+                            }
+                        </div>
+                        <div class="agile_top_brands_grids">
+                            @{
+                                for (int i = 3; i < 6; i++)
+                                {
+                                    <div class="col-md-4 top_brand_left">
+                                        <div class="hover14 column">
+                                            <div class="agile_top_brand_left_grid">
+                                                <div class="agile_top_brand_left_grid_pos">
+                                                    <img src="/Assets/Client/images/offer.png" alt=" " class="img-responsive" />
+                                                </div>
+                                                <div class="agile_top_brand_left_grid1">
+                                                    <figure>
+                                                        <div class="snipcart-item block">
+                                                            <div class="snipcart-thumb">
+                                                                <a href="/Products/Details/@_listSpecial[i].ProductID"><img height="150" width="150" title=" " alt=" " src="@_listSpecial[i].Images" /></a>
+                                                                <p>@_listSpecial[i].Name</p>
+                                                                <div class="stars">
+                                                                    <i class="fa fa-star blue-star" aria-hidden="true"></i>
+                                                                    <i class="fa fa-star blue-star" aria-hidden="true"></i>
+                                                                    <i class="fa fa-star blue-star" aria-hidden="true"></i>
+                                                                    <i class="fa fa-star blue-star" aria-hidden="true"></i>
+                                                                    <i class="fa fa-star gray-star" aria-hidden="true"></i>
+                                                                </div>
+                                                                <h4>
+                                                                    $
+                                                                    @{
+                                                                        if (_listSpecial[i].Special == 1)
+                                                                        {
+                                                                            float display = _listSpecial[i].PriceSell - (_listSpecial[i].Discount * _listSpecial[i].PriceSell) / 100; @String.Format("{0:0.00}", display) <span>$ @_listSpecial[i].PriceSell</span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            @_listSpecial[i].PriceSell
+                                                                        }
+                                                                    }
+                                                                </h4>
+                                                            </div>
+                                                            <div class="snipcart-details top_brand_home_details">
+                                                                <input type="hidden" id="Name@{@countPR}" value="@_listSpecial[i].Name" />
+                                                                <input type="hidden" id="IMG@{@countPR}" value="@_listSpecial[i].Images" />
+                                                                <input type="hidden" id="@countPR" value="@_listSpecial[i].ProductID" />
+                                                                <input type="submit" value="Add to cart" class="button" onclick="myFunction(@countPR);" />
+                                                            </div>
+                                                        </div>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    countPR++;
+                                }
+                                <div class="clearfix"> </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane fade" id="tours" aria-labelledby="tours-tab">
+                        <div class="agile-tp">
+                            <h5>This week</h5>
+                            <p class="w3l-ad">We've pulled together all our advertised offers into one place, so you won't miss out on a great deal.</p>
+                        </div>
+                        <div class="agile_top_brands_grids">
+                            @{
+                                for (int i = 0; i < 3; i++)
+                                {
+                                    <div class="col-md-4 top_brand_left">
+                                        <div class="hover14 column">
+                                            <div class="agile_top_brand_left_grid">
+                                                <div class="agile_top_brand_left_grid_pos">
+                                                    <img src="/Assets/Client/images/offer.png" alt=" " class="img-responsive" />
+                                                </div>
+                                                <div class="agile_top_brand_left_grid1">
+                                                    <figure>
+                                                        <div class="snipcart-item block">
+                                                            <div class="snipcart-thumb">
+                                                                <a href="/Products/Details/@_listRelate[i].ProductID"><img height="150" width="150" title=" " alt=" " src="@_listRelate[i].Images" /></a>
+                                                                <p>@_listRelate[i].Name</p>
+                                                                <div class="stars">
+                                                                    <i class="fa fa-star blue-star" aria-hidden="true"></i>
+                                                                    <i class="fa fa-star blue-star" aria-hidden="true"></i>
+                                                                    <i class="fa fa-star blue-star" aria-hidden="true"></i>
+                                                                    <i class="fa fa-star blue-star" aria-hidden="true"></i>
+                                                                    <i class="fa fa-star gray-star" aria-hidden="true"></i>
+                                                                </div>
+                                                                <h4>
+                                                                    $
+                                                                    @{
+                                                                        if (_listRelate[i].Special == 1)
+                                                                        {
+                                                                            float display = _listRelate[i].PriceSell - (_listRelate[i].Discount * _listRelate[i].PriceSell) / 100; @String.Format("{0:0.00}", display) <span>$ @_listRelate[i].PriceSell</span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            @_listRelate[i].PriceSell
+                                                                        }
+                                                                    }
+                                                                </h4>
+                                                            </div>
+                                                            <div class="snipcart-details top_brand_home_details">
+                                                                <input type="hidden" id="Name@{@countPR}" value="@_listRelate[i].Name" />
+                                                                <input type="hidden" id="IMG@{@countPR}" value="@_listRelate[i].Images" />
+                                                                <input type="hidden" id="@countPR" value="@_listRelate[i].ProductID" />
+                                                                <input type="submit" value="Add to cart" class="button" onclick="myFunction(@countPR);" />
+                                                            </div>
+                                                        </div>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    countPR++;
+                                }
+                                <div class="clearfix"> </div>
+                            }
+                        </div>
+                        <div class="agile_top_brands_grids">
+                            @{
+                                for (int i = 3; i < 6; i++)
+                                {
+                                    <div class="col-md-4 top_brand_left">
+                                        <div class="hover14 column">
+                                            <div class="agile_top_brand_left_grid">
+                                                <div class="agile_top_brand_left_grid_pos">
+                                                    <img src="/Assets/Client/images/offer.png" alt=" " class="img-responsive" />
+                                                </div>
+                                                <div class="agile_top_brand_left_grid1">
+                                                    <figure>
+                                                        <div class="snipcart-item block">
+                                                            <div class="snipcart-thumb">
+                                                                <a href="/Products/Details/@_listRelate[i].ProductID"><img height="150" width="150" title=" " alt=" " src="@_listRelate[i].Images" /></a>
+                                                                <p>@_listRelate[i].Name</p>
+                                                                <div class="stars">
+                                                                    <i class="fa fa-star blue-star" aria-hidden="true"></i>
+                                                                    <i class="fa fa-star blue-star" aria-hidden="true"></i>
+                                                                    <i class="fa fa-star blue-star" aria-hidden="true"></i>
+                                                                    <i class="fa fa-star blue-star" aria-hidden="true"></i>
+                                                                    <i class="fa fa-star gray-star" aria-hidden="true"></i>
+                                                                </div>
+                                                                <h4>
+                                                                    $
+                                                                    @{
+                                                                        if (_listRelate[i].Special == 1)
+                                                                        {
+                                                                            float display = _listRelate[i].PriceSell - (_listRelate[i].Discount * _listRelate[i].PriceSell) / 100; @String.Format("{0:0.00}", display) <span>$ @_listRelate[i].PriceSell</span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            @_listRelate[i].PriceSell
+                                                                        }
+                                                                    }
+                                                                </h4>
+                                                            </div>
+                                                            <div class="snipcart-details top_brand_home_details">
+                                                                <input type="hidden" id="Name@{@countPR}" value="@_listRelate[i].Name" />
+                                                                <input type="hidden" id="IMG@{@countPR}" value="@_listRelate[i].Images" />
+                                                                <input type="hidden" id="@countPR" value="@_listRelate[i].ProductID" />
+                                                                <input type="submit" value="Add to cart" class="button" onclick="myFunction(@countPR);" />
+
+                                                            </div>
+                                                        </div>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    countPR++;
+                                }
+                                <div class="clearfix"> </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- //top-brands -->

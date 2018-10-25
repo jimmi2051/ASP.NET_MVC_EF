@@ -1,0 +1,29 @@
+﻿@model SuperMarketMini.Domain.Order
+@{
+    ViewBag.Title = "PaymentSuccess";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="breadcrumbs">
+    <div class="container">
+        <ol class="breadcrumb breadcrumb1">
+            <li><a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+            <li class="active">Details Order @Model.OrderID</li>
+        </ol>
+    </div>
+</div>
+<div class="checkout">
+    <div class="container">
+        <h2>
+            Your order has been confirmed. We will send items to you in soon.
+            <br /><br /> Order ID: @Model.OrderID
+            <br /><br /> Expected date: @Model.RequireDate
+            <br /><br /> Shipping address: @Model.Address
+            <br /><br /> Amount: @Model.Amount
+            <br /><br /> Your contact: @Model.Contact
+            <br /> <br />Please contact us if you have a problem. Thanks for buying.
+        </h2>
+        <div class="checkout-right-basket">
+            <a href="/"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Continue Shopping</a>
+        </div>
+    </div>
+</div>

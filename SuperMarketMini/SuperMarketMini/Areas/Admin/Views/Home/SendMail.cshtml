@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewBag.Title = "SendMail";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    int count = (int)ViewBag.Count;
+}
+
+<div class="col-sm-3 com-w3ls">
+    <section class="panel">
+        <div class="panel-body">
+            <a href="mail_compose.html" class="btn btn-compose">
+                Compose Mail
+            </a>
+            <ul class="nav nav-pills nav-stacked mail-nav">
+                <li class="active"><a href="/Admin/Home/Mail"> <i class="fa fa-inbox"></i> Inbox  <span class="label label-danger pull-right inbox-notification">@count</span></a></li>
+                <li><a href="/Admin/Home/SendMail"> <i class="fa fa-envelope-o"></i> Send Mail</a></li>
+                <li><a href="#"> <i class="fa fa-certificate"></i> Important</a></li>
+                <li><a href="#"> <i class="fa fa-file-text-o"></i> Drafts <span class="label label-info pull-right inbox-notification"></span></a></a></li>
+                <li><a href="#"> <i class="fa fa-trash-o"></i> Trash</a></li>
+            </ul>
+        </div>
+    </section>
+</div>
+<div class="col-sm-9 mail-w3agile">
+    <section class="panel">
+        <header class="panel-heading wht-bg">
+            <h4 class="gen-case">
+                Compose Mail
+                <hr />
+                @using (Html.BeginForm("Mail", "Home", FormMethod.Get, new { @class = "pull-right mail-src-position" }))
+                {
+                    <div class="input-append">
+                        <div class="col-lg-8">
+                            @Html.TextBox("SearchString", "", ViewBag.CurrentFilter as string, new { @class = "form-control", @onfocus = "this.value = '';", })
+                        </div>
+                        <div class="col-lg-1">
+                            <input type="submit" value="Search" class="btn btn-send" />
+                        </div>
+                    </div>
+                }
+            </h4>
+        </header>
+        <div class="panel-body">
+            <div class="compose-btn pull-right">
+                <button class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Send</button>
+                <button class="btn btn-sm"><i class="fa fa-times"></i> Discard</button>
+                <button class="btn btn-sm">Draft</button>
+            </div>
+            <div class="compose-mail">
+                @using (Html.BeginForm("SendMail", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
+                {<div class="form-group">
+                        <label for="to" class="">To:</label>
+                        @Html.TextBox("email", "", new { @type = "text", @tabindex = "1", @id = "to", @class = "form-control" })
+                        <div class="compose-options">
+                            <a onclick="$(this).hide(); $('#cc').parent().removeClass('hidden'); $('#cc').focus();" href="javascript:;">Cc</a>
+                            <a onclick="$(this).hide(); $('#bcc').parent().removeClass('hidden'); $('#bcc').focus();" href="javascript:;">Bcc</a>
+                        </div>
+                    </div>
+                    <div class="form-group hidden">
+                        <label for="cc" class="">Cc:</label>
+                        @Html.TextBox("CC", "", new { @type = "text", @tabindex = "2", @id = "cc", @class = "form-control" })
+                    </div>
+
+                    <div class="form-group hidden">
+                        <label for="bcc" class="">Bcc:</label>
+                        <input type="text" tabindex="2" id="bcc" class="form-control">
+                        @Html.TextBox("BCC", "", new { @type = "text", @tabindex = "2", @id = "bcc", @class = "form-control" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject" class="">Subject:</label>
+                        @Html.TextBox("subject", "", new { @type = "text", @tabindex = "1", @id = "subject", @class = "form-control" })
+                    </div>
+                    <div class="compose-editor">
+                        @Html.TextArea("IContent", new { @class = "wysihtml5 form-control", @rows = "9",@id="context" })
+                    </div>
+                    <div class="compose-btn">
+                        <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Send</button>
+                        <button type="reset" class="btn btn-sm"><i class="fa fa-times"></i> Discard</button>
+                        <button class="btn btn-sm">Draft</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+</div>
+
+@{
+    if (ViewBag.Success != null)
+    {
+        <script type="text/javascript">
+            toastr["success"]("Your message has been successfully sent", "Notification");
+            var element = document.getElementById('subject');
+            var element1 = document.getElementById('to');
+            var element2 = document.getElementById('context');
+            element.value = "";
+            element1.value = "";
+            element2.value = "";
+        </script>
+    }
+}

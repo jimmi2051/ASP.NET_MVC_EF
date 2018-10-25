@@ -1,0 +1,148 @@
+﻿@model PagedList.IPagedList<SuperMarketMini.Domain.Receipt_Note>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    List<SelectListItem> _list = new List<SelectListItem>();
+    SelectListItem _item1 = new SelectListItem() { Text = "New create", Value = "1" };
+    SelectListItem _item2 = new SelectListItem() { Text = "Pending send", Value = "2" };
+    SelectListItem _item3 = new SelectListItem() { Text = "Confirm received", Value = "3" };
+    SelectListItem _item4 = new SelectListItem() { Text = "Return request", Value = "4" };
+    SelectListItem _item5 = new SelectListItem() { Text = "Cancel order", Value = "-1" };
+    _list.Add(_item1);
+    _list.Add(_item2);
+    _list.Add(_item3);
+    _list.Add(_item4);
+    _list.Add(_item5);
+}
+
+
+<ul class="breadcrumb">
+    <li>
+        <i class="icon-home"></i>
+        <a href="/Admin">Home</a>
+        <i class="icon-angle-right"></i>
+    </li>
+    <li><a href="/Admin/Receipt_Note/Index">List Receipt_Note</a></li>
+</ul>
+<div class="table-agile-info">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            List Receipt_Note
+        </div>
+        <hr />
+        <a class="btn btn-success" href="/Admin/Receipt_Note/Create" style="margin-left:20px">Create new receipt_note </a>
+            <hr />
+            @using (Html.BeginForm("Index", "Receipt_Note", FormMethod.Get))
+            {
+                <div class="form-group">
+                    <div class="col-lg-5">
+                        @Html.TextBox("SearchString", "Key: Receipt, Customer, Date", ViewBag.CurrentFilter as string, new { @class = "form-control", @onfocus = "this.value = '';", @onblur = "if (this.value == '') {this.value = 'Key: Receipt, Customer, Date';}" })
+                    </div>
+                    <div class="col-lg-1">
+                        <input type="submit" value="Search" class="btn btn-send" />
+                    </div>
+                </div>
+            }
+            @using (Html.BeginForm("Index", "Receipt_Note", FormMethod.Get))
+            {
+                <div class="form-group">
+                    <div class="col-lg-4">
+                        @Html.DropDownList("Type", _list, new { @class = "form-control" })
+                    </div>
+                    <div class="col-lg-1">
+                        <input type="submit" value="Filter" class="btn btn-send" />
+                    </div>
+                </div>
+            }
+            <table class="table" ui-jq="footable" ui-options='{
+        "paging": {
+          "enabled": true
+        },
+        "filtering": {
+          "enabled": true
+        },
+        "sorting": {
+          "enabled": true
+        }}'>
+                <thead>
+                    <tr>
+                        <th>
+                            Receipt_note ID
+                        </th>
+                        <th>
+                            Username
+                        </th>
+                        <th>
+                            Amount
+                        </th>
+                        <th>
+                            Create Date
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="center">
+                                @Html.DisplayFor(modelItem => item.Receipt_NoteID)
+                            </td>
+                            <td class="center">
+                                @Html.DisplayFor(modelItem => item.Username)
+                            </td>
+                            <td class="center">
+                                @Html.DisplayFor(modelItem => item.Amount)
+                            </td>
+                            <td class="center">
+                                @Html.DisplayFor(modelItem => item.Created)
+                            </td>
+                            <td class="center">
+                                @if (item.Status == 4)
+                                {
+                                    <span class="label label-warning">Return request</span>
+                                }
+                                @if (item.Status == 3)
+                                {
+                                    <span class="label label-success">Confirm received</span>
+                                }
+                                @if (item.Status == 2)
+                                {
+                                    <span class="label label-warning">Pending send</span>
+                                }
+                                @if (item.Status == 1)
+                                {
+                                    <span class="label label-default">New create</span>
+                                }
+                                @if (item.Status == -1)
+                                {
+                                    <span class="label label-danger">Cancel order</span>
+                                }
+                            </td>
+                            <td>
+                                <a class="btn btn-info" href="/Admin/Receipt_Note/detailsReceipt/@item.Receipt_NoteID">
+                                    Details
+                                </a>
+                                <a class="btn btn-danger" href="/Admin/Receipt_Note/Delete/@item.Receipt_NoteID">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div style="text-align:center">
+                <br />
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+            </div>
+    </div>
+</div>
+
+
+
+

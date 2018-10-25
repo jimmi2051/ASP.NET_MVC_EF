@@ -1,0 +1,85 @@
+﻿@model SuperMarketMini.Models.LoginUser
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int typetoreturn = 0;
+}
+<div class="breadcrumbs">
+    <div class="container">
+        <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+            <li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+            <li class="active">Login Page</li>
+        </ol>
+    </div>
+</div>
+@{ 
+    if(ViewBag.Error!=null)
+    {
+        typetoreturn = 1;
+        <script>
+            toastr["warning"]("Please login to pay. Thank you !!", "Warring !!!");
+        </script>    
+    }
+}
+<!-- //breadcrumbs -->
+<!-- login -->
+<div class="login">
+    <div class="container">
+        <h2>Login Form</h2>
+
+        <div class="login-form-grids animated wow slideInUp" data-wow-delay=".5s">
+            @using (Html.BeginForm("Login", "Users", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <fieldset>
+                    @Html.Hidden("TypeToReturn",typetoreturn)
+                    <div class="control-group" id="classusername">
+                        @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label" })
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.Username, new { @id="username",@class = "form-control", @type = "text", @maxlength = "20", @autofocus = "autofocus", @value = "Username", @onfocus = "if(this.value=='Username') { this.value = '';}", @onblur = "if (this.value == '') {this.value = 'Username';} checkValidation('username');" })
+                            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="control-group" id="classpassword">
+                        @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label" })
+                        <div class="controls">
+                            @Html.PasswordFor(model => model.Password, new {  @id="password",@class = "form-control", @maxlength = "50", @type = "password", @value = "Password", @onfocus = "this.value = '';", @onblur = "if (this.value == '') {this.value = 'Password';} checkValidation('password');" })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.TextBoxFor(model => model.RememberMe, new { @id = "brand", @type = "checkbox" })
+                        <label for="brand">Keep Me Logged In</label>
+                        <div align="right"><a href="#">Forgot password</a></div>
+                    </div>
+                    @if (ViewBag.Errors != null)
+                    {
+                        <div class="text-danger" align="center">@ViewBag.Errors</div>
+                    }
+                    <!-- Change this to a button or input when using this as a form -->
+                    <input type="submit" value="LOG IN" class="btn btn-success" onmousemove="checkValidation('username');checkValidation('password');">
+                    <div align="center">
+                        <label for="brand">---Or---</label>
+                    </div>
+                </fieldset>
+            }
+            <div align="center">
+                <form action="@Url.Action("LoginWithGooglePlus", "Users")" method="post">
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("TypeToReturn", typetoreturn)
+                    <a class="btn btn-facebook" href="/Users/LoginFacebook?TypeReturn=@typetoreturn">
+                        <i class="fa fa-facebook"></i>
+                        Login with Facebook
+                    </a>
+                    <button type="submit" class="btn btn-google"><i class="fa fa-google-plus"></i>  Login with Google + </button>
+                </form>
+            </div>
+        </div>
+
+        <h4>For New People</h4>
+        <p><a href="/register">Register Here</a> (Or) go back to <a href="/">Home<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></a></p>
+    </div>
+</div>
+<!-- //login -->

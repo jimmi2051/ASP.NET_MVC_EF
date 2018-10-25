@@ -1,0 +1,134 @@
+﻿@model PagedList.IPagedList<SuperMarketMini.Domain.Product>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "List products";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<ul class="breadcrumb">
+    <li>
+        <i class="icon-home"></i>
+        <a href="/Admin">Home</a>
+        <i class="icon-angle-right"></i>
+    </li>
+    <li><a href="/Admin/Product/Index">Products</a></li>
+</ul>
+@{
+    if (ViewBag.Update != null)
+    {
+        <script>
+            toastr["success"]("Update Success", "Notification");
+        </script>
+    }
+    if (ViewBag.Delete != null)
+    {
+        <script>
+            toastr["success"]("Delete Success", "Notification");
+        </script>
+    }
+    if (ViewBag.Create != null)
+    {
+        <script>
+            toastr["success"]("Create Success", "Notification");
+        </script>
+    }
+}
+<div class="table-agile-info">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            List Product
+        </div>
+        <hr />
+        <hr />
+        @using (Html.BeginForm("Index", "Product", FormMethod.Get))
+        {
+            <div class="form-group">
+                <div class="col-lg-5">
+                    @Html.TextBox("SearchString", "Key: Product_ID, Product name, Supplier, Category", ViewBag.CurrentFilter as string, new { @class = "form-control", @onfocus = "this.value = '';", @onblur = "if (this.value == '') {this.value = 'Key: Product_ID, Product name, Supplier, Category';}" })
+                </div>
+                <div class="col-lg-1">
+                    <input type="submit" value="Search" class="btn btn-send" />
+                </div>
+            </div>
+        }
+        <table class="table" ui-jq="footable" ui-options='{
+        "paging": {
+          "enabled": true
+        },
+        "filtering": {
+          "enabled": true
+        },
+        "sorting": {
+          "enabled": true
+        }}'>
+            <thead>
+                <tr>
+                    <th>
+                        Product_ID
+                    </th>
+                    <th>
+                        Product name
+                    </th>
+                    <th>
+                        Category name
+                    </th>
+                    <th>
+                        Supplier name
+                    </th>
+                    <th>
+                        Quality
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="center">
+                            @Html.DisplayFor(modelItem => item.ProductID)
+                        </td>
+                        <td class="center">
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td class="center">
+                            @Html.DisplayFor(modelItem => item.Category.Name)
+                        </td>
+                        <td class="center">
+                            @Html.DisplayFor(modelItem => item.Supplier.Name)
+                        </td>
+                        <td class="center">
+                            @Html.DisplayFor(modelItem => item.Quality)
+                        </td>
+                        <td class="center">
+                            @if (item.Status == 2)
+                            {
+                                <span class="label label-warning">Unactive</span>
+                            }
+                            @if (item.Status == 1)
+                            {
+                                <span class="label label-success">Active</span>
+                            }
+                        </td>
+                        <td>
+                            <a class="btn btn-info" href="/Admin/Product/Edit/@item.ProductID">
+                                Details
+                            </a>
+                            <a class="btn btn-danger" href="/Admin/Product/Delete/@item.ProductID">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div style="text-align:center">
+            <br />
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        </div>
+    </div>
+</div>

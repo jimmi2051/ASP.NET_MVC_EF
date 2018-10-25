@@ -1,0 +1,161 @@
+﻿@using SuperMarketMini.Domain;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Product> _list = (List<SuperMarketMini.Domain.Product>)ViewBag.List;
+    int countPR = 99;
+    int count = 0;
+}
+
+<!-- //navigation -->
+<!-- main-slider -->
+<ul id="demo1">
+    <li>
+        <img src="/Assets/Client/images/11.jpg" alt="" />
+        <!--Slider Description example-->
+        <div class="slide-desc">
+            <h3>Buy Rice Products Are Now On Line With Us</h3>
+        </div>
+    </li>
+    <li>
+        <img src="/Assets/Client/images/22.jpg" alt="" />
+        <div class="slide-desc">
+            <h3>Whole Spices Products Are Now On Line With Us</h3>
+        </div>
+    </li>
+
+    <li>
+        <img src="/Assets/Client/images/44.jpg" alt="" />
+        <div class="slide-desc">
+            <h3>Whole Spices Products Are Now On Line With Us</h3>
+        </div>
+    </li>
+</ul>
+<!-- //main-slider -->
+<!-- //top-header and slider -->
+@{ Html.RenderAction("Offer", "Home");}
+<!-- Carousel
+   ================================================== -->
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <a href="/Products/listProductbyCat?group=Groceries"> <img class="first-slide" src="/Assets/Client/images/b1.jpg" alt="First slide"></a>
+
+        </div>
+        <div class="item">
+            <a href="/Products/listProductbyCat?group=Household"> <img class="second-slide " src="/Assets/Client/images/b3.jpg" alt="Second slide"></a>
+
+        </div>
+        <div class="item">
+            <a href="/Products/listProductbyCat?group=Personal%20Care"><img class="third-slide " src="/Assets/Client/images/b1.jpg" alt="Third slide"></a>
+
+        </div>
+    </div>
+
+</div><!-- /.carousel -->
+<!--banner-bottom-->
+<div class="ban-bottom-w3l">
+    <div class="container">
+        <div class="col-md-6 ban-bottom3">
+            <div class="ban-top">
+                <img src="/Assets/Client/images/p2.jpg" class="img-responsive" alt="" />
+            </div>
+            <div class="ban-img">
+                <div class=" ban-bottom1">
+                    <div class="ban-top">
+                        <img src="/Assets/Client/images/p3.jpg" class="img-responsive" alt="" />
+                    </div>
+                </div>
+                <div class="ban-bottom2">
+                    <div class="ban-top">
+                        <img src="/Assets/Client/images/p4.jpg" class="img-responsive" alt="" />
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="col-md-6 ban-bottom">
+            <div class="ban-top">
+                <img src="/Assets/Client/images/111.jpg" class="img-responsive" alt="" />
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+    </div>
+</div>
+<!--banner-bottom-->
+@{ Html.RenderAction("Brand", "Home");}
+<!-- new -->
+<div class="newproducts-w3agile">
+    <div class="container">
+        <h3>New offers</h3>
+        <div class="agile_top_brands_grids">
+            @{
+                count = 0;
+                foreach (var item in _list)
+                {
+                    if (count == 4)
+                    {
+                        break;
+                    }
+                    <div class="col-md-3 top_brand_left-1">
+                        <div class="hover14 column">
+                            <div class="agile_top_brand_left_grid">
+                                <div class="agile_top_brand_left_grid_pos">
+                                    <img src="~/Assets/Client/images/offer.png" alt=" " class="img-responsive">
+                                </div>
+                                <div class="agile_top_brand_left_grid1">
+                                    <figure>
+                                        <div class="snipcart-item block">
+                                            <div class="snipcart-thumb">
+                                                <a href="/Products/Details/@item.ProductID"><img title=" " alt=" " width="150" height="150" src="@item.Images"></a>
+                                                <p>@item.Name</p>
+                                                <div class="stars">
+                                                    <i class="fa fa-star blue-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star blue-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star blue-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star blue-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star gray-star" aria-hidden="true"></i>
+                                                </div>
+                                                <h4>
+                                                    $
+                                                    @{
+                                                        if (item.Special == 1)
+                                                        {
+                                                            float display = item.PriceSell - (item.Discount * item.PriceSell) / 100; @String.Format("{0:0.00}", display) <span>$ @item.PriceSell</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            @item.PriceSell
+                                                        }
+                                                    }
+                                                </h4>
+                                            </div>
+                                            <div class="snipcart-details top_brand_home_details">
+                                                <input type="hidden" id="Name@{@countPR}" value="@item.Name" />
+                                                <input type="hidden" id="IMG@{@countPR}" value="@item.Images" />
+                                                <input type="hidden" id="@countPR" value="@item.ProductID" />
+                                                <input type="submit" value="Add to cart" class="button" onclick="myFunction(@countPR);" />
+                                            </div>
+                                        </div>
+                                    </figure>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    count++;
+                    countPR++;
+                }
+            }
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+</div>
+
+

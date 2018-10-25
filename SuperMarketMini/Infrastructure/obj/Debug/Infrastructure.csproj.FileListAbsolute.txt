@@ -1,0 +1,6 @@
+D:\SourceCode\ASP.NET\SuperMarketMini\Infrastructure\bin\Debug\Infrastructure.dll.config
+D:\SourceCode\ASP.NET\SuperMarketMini\Infrastructure\bin\Debug\Infrastructure.dll
+D:\SourceCode\ASP.NET\SuperMarketMini\Infrastructure\bin\Debug\Infrastructure.pdb
+D:\SourceCode\ASP.NET\SuperMarketMini\Infrastructure\obj\Debug\Infrastructure.csproj.CoreCompileInputs.cache
+D:\SourceCode\ASP.NET\SuperMarketMini\Infrastructure\obj\Debug\Infrastructure.dll
+D:\SourceCode\ASP.NET\SuperMarketMini\Infrastructure\obj\Debug\Infrastructure.pdb

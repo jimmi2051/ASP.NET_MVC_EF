@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FC551A1A-0AE6-4F97-BC91-69112652AE08}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Domain</RootNamespace>
+    <AssemblyName>Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Category.cs" />
+    <Compile Include="ICategoryRepository.cs" />
+    <Compile Include="IMessageRepository.cs" />
+    <Compile Include="IOrderRepository.cs" />
+    <Compile Include="IOrder_DetailRepository.cs" />
+    <Compile Include="IProductRepository.cs" />
+    <Compile Include="IReceipt_NoteRepository.cs" />
+    <Compile Include="IReceipt_Note_DetailRepository.cs" />
+    <Compile Include="ISupplierRepository.cs" />
+    <Compile Include="ITypeUserRepository.cs" />
+    <Compile Include="IUserRepository.cs" />
+    <Compile Include="Message.cs" />
+    <Compile Include="Migrations\201804301320198_update.cs" />
+    <Compile Include="Migrations\201804301320198_update.Designer.cs">
+      <DependentUpon>201804301320198_update.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805031011172_NewUpdate.cs" />
+    <Compile Include="Migrations\201805031011172_NewUpdate.Designer.cs">
+      <DependentUpon>201805031011172_NewUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805031633091_update1.cs" />
+    <Compile Include="Migrations\201805031633091_update1.Designer.cs">
+      <DependentUpon>201805031633091_update1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805101301578_NewUp.cs" />
+    <Compile Include="Migrations\201805101301578_NewUp.Designer.cs">
+      <DependentUpon>201805101301578_NewUp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805110620161_update_Supllier.cs" />
+    <Compile Include="Migrations\201805110620161_update_Supllier.Designer.cs">
+      <DependentUpon>201805110620161_update_Supllier.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805110636069_update_Supllier12.cs" />
+    <Compile Include="Migrations\201805110636069_update_Supllier12.Designer.cs">
+      <DependentUpon>201805110636069_update_Supllier12.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805150859275_xinchao.cs" />
+    <Compile Include="Migrations\201805150859275_xinchao.Designer.cs">
+      <DependentUpon>201805150859275_xinchao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805150902077_createMessage.cs" />
+    <Compile Include="Migrations\201805150902077_createMessage.Designer.cs">
+      <DependentUpon>201805150902077_createMessage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805150905313_createMessage1.cs" />
+    <Compile Include="Migrations\201805150905313_createMessage1.Designer.cs">
+      <DependentUpon>201805150905313_createMessage1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Order.cs" />
+    <Compile Include="Order_Detail.cs" />
+    <Compile Include="Product.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Receipt_Note.cs" />
+    <Compile Include="Receipt_Note_Detail.cs" />
+    <Compile Include="SuperMarketMini_Context.cs" />
+    <Compile Include="Supplier.cs" />
+    <Compile Include="TypeUser.cs" />
+    <Compile Include="User.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
+      <Project>{1edea215-e5f4-4ae3-bfd2-e9556d602d34}</Project>
+      <Name>Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201804301320198_update.resx">
+      <DependentUpon>201804301320198_update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805031011172_NewUpdate.resx">
+      <DependentUpon>201805031011172_NewUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805031633091_update1.resx">
+      <DependentUpon>201805031633091_update1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805101301578_NewUp.resx">
+      <DependentUpon>201805101301578_NewUp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805110620161_update_Supllier.resx">
+      <DependentUpon>201805110620161_update_Supllier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805110636069_update_Supllier12.resx">
+      <DependentUpon>201805110636069_update_Supllier12.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805150859275_xinchao.resx">
+      <DependentUpon>201805150859275_xinchao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805150902077_createMessage.resx">
+      <DependentUpon>201805150902077_createMessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805150905313_createMessage1.resx">
+      <DependentUpon>201805150905313_createMessage1.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

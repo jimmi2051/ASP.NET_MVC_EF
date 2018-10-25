@@ -1,0 +1,94 @@
+﻿@using SuperMarketMini.Common;
+
+<div class="agileits_header">
+    <div class="container">
+        <div class="w3l_offers">
+            <p>Welcome to Supermarket Mini. <a href="/Products/listProductbyCat">SHOP NOW</a></p>
+        </div>
+        <div class="agile-login">
+            <ul>
+                @{
+
+                    SessionUser session = (SessionUser)Session[Infrastructure.Information.CommonConstantUsers];
+                    if (session != null)
+                    {
+                        if (session.Img.IsEmpty())
+                        {
+                            session.Img = "/Images/Users/user.png";
+                        }
+                        <li><a href="/Cart/ViewHistory">View history</a></li>
+                        <li><img src="@session.Img" width="20" height="20" /></li>
+                        <li><a href="/users/profileuser/@session.Username">Hi, @session.DisplayName</a></li>
+                        <li><a href="/Users/Logout">Logout</a></li>
+                    }
+                    else
+                    {
+                        <li><a href="/register"> Create Account </a></li>
+                        <li><a href="/login">Login</a></li>
+                    }
+                }
+            </ul>
+        </div>
+        <div class="product_list_header" style="position:relative; right:150px">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <img src="~/Images/Users/cart.png" width="40" height="40" data-toggle="dropdown" style="cursor:pointer">
+                    <ul class="dropdown-menu multi-column columns-3" style="position: absolute">
+                        <div class="row" style="z-index:6">
+                            <div class="multi-gd-img">
+                                <ul class="multi-column-dropdown">
+                                    <table class="table" id="listData">
+                                        <thead>
+                                            <tr>
+                                                <th>Product</th>
+                                                <th>Amount</th>
+                                                <th>Quality</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                float total = 0;
+                                                var cart = Session[Infrastructure.Information.CommonConstantCard];
+                                                if (cart != null)
+                                                {
+                                                    var list = (List<SuperMarketMini.Models.CartItem>)cart;
+                                                    foreach (var item in list)
+                                                    {
+                                                        <tr>
+                                                            <td><img src="@item.Product.Images" width="20" height="20" /></td>
+                                                            <td>
+                                                                @{
+                                                                    float display = item.Product.PriceSell - item.Product.PriceSell * item.Product.Discount / 100;
+                                                                    @display
+                                                                }
+                                                            </td>
+                                                            <td>@item.Quality</td>
+                                                        </tr>
+                                                        total += item.Quality * (item.Product.PriceSell - item.Product.PriceSell * item.Product.Discount / 100);
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <tr><td colspan="3"><label class="text-danger">You don't have item in cart</label></td></tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                    <li id="total">
+                                        <label class="text-info">Total: @total  $</label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <li>
+                            <a href="/cart/index" class="btn btn-warning" style="color:black">View details</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+</div>
+
+

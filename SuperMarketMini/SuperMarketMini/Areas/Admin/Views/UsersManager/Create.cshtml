@@ -1,0 +1,111 @@
+﻿@model SuperMarketMini.Domain.User
+@{
+    ViewBag.Title = "Create user";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="form-w3layouts">
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    Create Users
+                    <span class="tools pull-right">
+                        <a class="fa fa-chevron-down" href="javascript:;"></a>
+                        <a class="fa fa-cog" href="javascript:;"></a>
+                        <a class="fa fa-times" href="javascript:;"></a>
+                    </span>
+                </header>
+                <div class="panel-body">
+                    <div class="form">
+                        @using (Html.BeginForm("Create", "UsersManager", FormMethod.Post, new { @class = "cmxform form-horizontal", @id = "signupForm" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <fieldset>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Username, new { @class = "control-label col-lg-3", @for = "focusedInput" })
+                                    <div class="col-lg-6">
+                                        @Html.TextBoxFor(model => model.Username, new { @class = "form-control", @type = "text", @id = "focusedInput" })
+                                        @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Password, new { @class = "control-label col-lg-3", @for = "focusedInput" })
+                                    <div class="col-lg-6">
+                                        @Html.TextBoxFor(model => model.Password, new { @type = "password", @class = "form-control", @id = "focusedInput" })
+                                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Email, new { @class = "control-label col-lg-3", @for = "focusedInput" })
+                                    <div class="col-lg-6">
+                                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @type = "text", @id = "focusedInput" })
+                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Phone, new { @class = "control-label col-lg-3", @for = "focusedInput" })
+                                    <div class="col-lg-6">
+                                        @Html.TextBoxFor(model => model.Phone, new { @class = "form-control", @type = "text", @id = "focusedInput", @maxlength = "15" })
+                                        @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.DisplayName, new { @class = "control-label col-lg-3", @for = "focusedInput" })
+                                    <div class="col-lg-6">
+                                        @Html.TextBoxFor(model => model.DisplayName, new { @class = "form-control", @type = "text", @id = "focusedInput" })
+                                        @Html.ValidationMessageFor(model => model.DisplayName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Address1, new { @class = "control-label col-lg-3", @for = "focusedInput" })
+                                    <div class="col-lg-6">
+                                        @Html.TextBoxFor(model => model.Address1, new { @class = "form-control", @type = "text", @id = "focusedInput" })
+                                        @Html.ValidationMessageFor(model => model.Address1, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Address2, new { @class = "control-label col-lg-3", @for = "focusedInput" })
+                                    <div class="col-lg-6">
+                                        @Html.TextBoxFor(model => model.Address2, new { @class = "form-control", @type = "text", @id = "focusedInput" })
+                                        @Html.ValidationMessageFor(model => model.Address2, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Birthday, new { @class = "control-label col-lg-3", @for = "focusedInput" })
+                                    <div class="col-lg-6">
+                                        @Html.TextBoxFor(model => model.Birthday, new { @class = "form-control", @type = "date" })
+                                        @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Sex, new { @class = "control-label col-lg-3", @for = "focusedInput" })
+                                    <div class="col-lg-6">
+                                        <label style="cursor:default" class="radio-inline radio">
+                                            @Html.RadioButtonFor(model => model.Sex, "Male") Male
+                                        </label>
+                                        <label style="cursor:default" class="radio-inline radio">@Html.RadioButtonFor(model => model.Sex, "Female") Female</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.TypeID, "TypeID", new { @class = "control-label col-lg-3", @for = "selectError" })
+                                    <div class="col-lg-6">
+                                        @Html.DropDownList("TypeID", null, new { @id = "selectError", @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.TypeID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-offset-3 col-lg-6">
+                                        <button type="submit" class="btn btn-success">Create user</button>
+                                        <button class="btn">Cancel</button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        }
+                    </div>
+                </div><!--/span-->
+            </section>
+        </div>
+    </div>
+</div>
+
